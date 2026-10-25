@@ -1,35 +1,47 @@
-import React from "react";
-import { Section } from "../layout/section";
-import { Container } from "../layout/container";
-import { SectionHeader } from "../layout/section-header";
-import { ProductRow } from "../cards/product-row";
-import { products } from "@/data/products";
+import Image from "next/image";
+import Container from "@/components/ui/Container";
+import { products } from "@/content/site";
+import ProductEnquiryLink from "@/components/cards/ProductEnquiryLink";
 
-export function Products() {
+export default function Products() {
   return (
-    <Section
-      id="products"
-      variant="paper"
-      topRule
-      ruleWeight="heavy"
-      className="pb-0"
-    >
+    <section id="products" className="work-section" aria-labelledby="products-heading">
       <Container>
-        <SectionHeader
-          index="02"
-          label="PRODUCTS"
-          title="Things we've built."
-          description="A selection of high-concurrency systems, developer infrastructure, and data platforms engineered for demanding real-world workloads."
-          id="products-title"
-        />
+        <div className="section-intro">
+          <h2 id="products-heading" className="section-title">Ideas into<br />working systems.</h2>
+          <p>Explore our product areas, from distributed infrastructure to local intelligence. Talk to us about the right fit and current availability.</p>
+        </div>
+        <div className="product-grid">
+          {products.map(product => (
+            <article key={product.id} id={product.id} className="product-feature group">
+              <div className={`product-visual product-${product.color}`} aria-label={`${product.name} workflow illustration`}>
+                {"image" in product && product.image && (
+                  <div className="product-image-layer">
+                    <Image
+                      src={product.image}
+                      alt=""
+                      fill
+                      sizes="(max-width: 767px) calc(100vw - 48px), (max-width: 1023px) calc(50vw - 40px), 600px"
+                      className="product-bg-img"
+                    />
+                    <div className={`product-image-scrim scrim-${product.color}`} />
+                  </div>
+                )}
+                <div className="product-visual-inner">
+                  <span className="visual-category">{product.category}</span>
+                </div>
+              </div>
+              <div className="product-copy">
+                <h3>{product.name}</h3>
+                <p>{product.description}</p>
+                <p className="product-usecase">{product.useCase}</p>
+                <ProductEnquiryLink name={product.name} />
+              </div>
+            </article>
+          ))}
+        </div>
       </Container>
-
-      {/* Ruled list of products across the full container */}
-      <div className="border-t border-[var(--color-ink)] mt-12">
-        {products.map((product) => (
-          <ProductRow key={product.id} product={product} />
-        ))}
-      </div>
-    </Section>
+    </section>
   );
 }
+

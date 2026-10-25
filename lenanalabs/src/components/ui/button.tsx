@@ -1,64 +1,57 @@
-import React from "react";
-import Link from "next/link";
+import { ReactNode, ButtonHTMLAttributes, AnchorHTMLAttributes } from "react";
 
-export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: "primary" | "secondary" | "outline" | "ink";
-  size?: "default" | "sm";
-  arrow?: boolean;
-  href?: string;
-  isExternal?: boolean;
-}
+type ButtonVariant = "primary" | "secondary" | "ink";
 
-export function Button({
-  variant = "primary",
-  size = "default",
-  arrow = false,
-  href,
-  isExternal,
-  className = "",
+type ButtonAsButton = {
+  as?: "button";
+  href?: never;
+} & ButtonHTMLAttributes<HTMLButtonElement>;
+
+type ButtonAsAnchor = {
+  as: "a";
+  href: string;
+  target?: string;
+  rel?: string;
+} & AnchorHTMLAttributes<HTMLAnchorElement>;
+
+type ButtonProps = {
+  children: ReactNode;
+  variant?: ButtonVariant;
+  className?: string;
+} & (ButtonAsButton | ButtonAsAnchor);
+
+const variantClasses: Record<ButtonVariant, string> = {
+  primary:
+    "bg-carmine text-paper hover:bg-carmine/90 focus-visible:outline-carmine",
+  secondary:
+    "bg-transparent text-ink border border-ink hover:bg-ink hover:text-paper focus-visible:outline-ink",
+  ink: "bg-ink text-paper hover:bg-ink/80 focus-visible:outline-ink",
+};
+
+export default function Button({
   children,
+  variant = "primary",
+  className = "",
+  as,
   ...props
 }: ButtonProps) {
-  const variantClass = {
-    primary: "btn--primary",
-    secondary: "btn--secondary",
-    outline: "btn--outline",
-    ink: "btn--ink",
-  }[variant];
+  const base =
+    "inline-flex items-center justify-center h-12 px-6 text-sm font-medium rounded-none transition-colors duration-150 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 cursor-pointer";
 
-  const sizeClass = size === "sm" ? "btn--sm" : "";
-  const classes = `btn ${variantClass} ${sizeClass} ${className}`.trim();
+  const classes = `${base} ${variantClasses[variant]} ${className}`;
 
-  const content = (
-    <>
-      <span>{children}</span>
-      {arrow && <span aria-hidden="true" className="select-none font-sans">→</span>}
-    </>
-  );
-
-  if (href) {
-    if (isExternal) {
-      return (
-        <a
-          href={href}
-          className={classes}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          {content}
-        </a>
-      );
-    }
+  if (as === "a") {
+    const { href, target, rel, ...rest } = props as ButtonAsAnchor;
     return (
-      <Link href={href} className={classes}>
-        {content}
-      </Link>
+      <a href={href} target={target} rel={rel} className={classes} {...rest}>
+        {children}
+      </a>
     );
   }
 
   return (
-    <button className={classes} {...props}>
-      {content}
+    <button className={classes} {...(props as ButtonHTMLAttributes<HTMLButtonElement>)}>
+      {children}
     </button>
   );
 }

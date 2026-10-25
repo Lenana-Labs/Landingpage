@@ -1,14 +1,15 @@
-import React from "react";
-import { Section } from "../layout/section";
-import { Container } from "../layout/container";
-import { ContactCard } from "../cards/contact-card";
+﻿import Container from "@/components/ui/Container";
+import ProjectBrief from "@/components/cards/ProjectBrief";
 
-export function Contact() {
+export default function Contact() {
   return (
-    <Section id="contact" variant="paper">
+    <section id="contact" className="contact-section" aria-labelledby="contact-heading">
       <Container>
-        <ContactCard />
+        <div className="contact-layout">
+          <div><h2 id="contact-heading">What are<br />you building?</h2><p>A new product, a difficult integration, or a system that needs a fresh approach. Start with the problem.</p></div>
+          <ProjectBrief />
+        </div>
       </Container>
-    </Section>
+    </section>
   );
 }

@@ -1,19 +1,20 @@
-import React from "react";
+import { ReactNode } from "react";
 
-export interface TagProps {
-  variant?: "outline" | "sulphur";
+type TagVariant = "outline" | "sulphur";
+
+interface TagProps {
+  children: ReactNode;
+  variant?: TagVariant;
   className?: string;
-  children: React.ReactNode;
 }
 
-export function Tag({
-  variant = "outline",
-  className = "",
-  children,
-}: TagProps) {
-  const variantClass = variant === "sulphur" ? "tag--sulphur" : "";
+export default function Tag({ children, variant = "outline", className = "" }: TagProps) {
   return (
-    <span className={`tag ${variantClass} ${className}`.trim()}>
+    <span
+      className={`inline-block border border-ink px-2 py-0.5 text-xs font-mono leading-none rounded-none ${
+        variant === "sulphur" ? "bg-sulphur" : "bg-transparent"
+      } ${className}`}
+    >
       {children}
     </span>
   );

@@ -1,33 +1,27 @@
-import React from "react";
+import { ReactNode } from "react";
 
-export interface LabelProps {
-  variant?: "default" | "carmine" | "muted" | "sulphur";
-  as?: "span" | "p" | "div";
+type LabelVariant = "default" | "carmine";
+
+interface LabelProps {
+  children: ReactNode;
+  variant?: LabelVariant;
   className?: string;
-  children: React.ReactNode;
-  id?: string;
+  as?: "span" | "p" | "div" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
 }
 
-export function Label({
-  variant = "default",
-  as: Component = "span",
-  className = "",
+export default function Label({
   children,
-  id,
+  variant = "default",
+  className = "",
+  as: Tag = "span",
 }: LabelProps) {
-  const colorMap = {
-    default: "text-[var(--color-ink)]",
-    carmine: "text-[var(--color-carmine)]",
-    muted: "text-[var(--color-muted)]",
-    sulphur: "text-[var(--color-sulphur)]",
-  };
-
   return (
-    <Component
-      id={id}
-      className={`type-label ${colorMap[variant]} ${className}`.trim()}
+    <Tag
+      className={`font-mono text-xs uppercase tracking-[0.12em] leading-none ${
+        variant === "carmine" ? "text-carmine" : "text-ink"
+      } ${className}`}
     >
       {children}
-    </Component>
+    </Tag>
   );
 }

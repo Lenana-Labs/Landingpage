@@ -1,36 +1,45 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+﻿# Lenana Labs
 
-## Getting Started
+Next.js 16 / React 19 / Tailwind CSS 4 website. The design combines editorial typography with softer surfaces, restrained color, and responsive layouts.
 
-First, run the development server:
+## Development
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+Run `npm install`, then `npm run dev`. On Windows PowerShell, use `npm.cmd` if execution policy blocks `npm.ps1`.
+
+## Content
+
+Edit `src/content/site.ts` to change products, capabilities, navigation, and the contact email. Products are placeholders retained at the owner's request. Replace their records and workflow concepts with real product information and imagery when ready.
+
+The temporary email is `ngigemwaniki2004@gmail.com`. The project brief stays in browser memory. No message is submitted to a server: visitors review and send it in their email app. Product enquiry links carry the selected product into this brief. The copy icon copies the email address; selectable text appears only if clipboard access fails.
+
+The existing Nairobi photograph is retained in `public/images/hero-bg.jpg`. Confirm its source and usage rights before publication. Unverified statistics, testimonials, and stock team identities are no longer rendered.
+
+## Production
+
+Copy `.env.example` to `.env.local` and set `NEXT_PUBLIC_SITE_URL` to the actual origin before building. This supplies correct absolute social image URLs. Local development falls back to `http://localhost:3000`.
+
+Run separately:
+
+```sh
+npm run lint
+npm run build
+npm run start -- --port 3100
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+The branded favicon, SVG icon, and generated Open Graph image are in `src/app`.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Browser checks
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+`node scripts/browser-smoke.mjs` runs against the production server on port 3100. Set `TEST_URL` for a different origin. It uses the installed Taste skill's Chrome driver and requires Node 22+ and Chrome or Edge.
 
-## Learn More
+Checks cover 360, 390, 768, 1024, and 1440px; overflow; anchor destinations; loaded images; browser exceptions; keyboard menu activation; Escape/focus return; menu closing; email encoding; product enquiry context; draft preservation; copy feedback; clipboard failure recovery; resize behavior; and reduced motion. Screenshots and results are written to `.taste-skill/qa`.
 
-To learn more about Next.js, take a look at the following resources:
+For design measurements:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```sh
+node .agents/skills/design-taste-frontend/scripts/inspect.mjs http://localhost:3100 --out .taste-skill/after
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Style warnings about modest borders, static reading, labeled workflow concepts, and the absence of extra photography are intentional tradeoffs. No unapproved stock identities or automatic animation is added to satisfy quotas.
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Legacy section/card components are retained but not imported by the current homepage. Verify their content before reuse.
