@@ -20,6 +20,7 @@ const nextConfig: NextConfig = {
     turbopackFileSystemCacheForDev: false,
   },
   turbopack: {
+    root: __dirname,
     rules: {
       "*.css": {
         loaders: ["@tailwindcss/turbopack"],
