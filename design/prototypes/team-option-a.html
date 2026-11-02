@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en" class="js">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Team — Option A: Refined editorial roster</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=IBM+Plex+Mono:wght@400;500&family=Instrument+Sans:wght@400..600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="lab.css">
+<style>
+.review-bar{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;background:#100F0B;color:#C8C4B9;padding:8px 16px;font-family:var(--mono);font-size:.6875rem;letter-spacing:.08em;text-transform:uppercase}
+.review-bar b{color:var(--mustard);font-weight:500}
+.band{padding:clamp(48px,6vw,88px) 0}
+.team-head{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:clamp(14px,2vw,28px);align-items:end}
+.team-head>div{grid-column:1/8}
+.team-head .h2{margin-top:12px}
+.team-note{grid-column:9/13;color:var(--ink-2);text-align:right;font-size:.6875rem;line-height:1.55}
+
+.roster{margin-top:clamp(28px,3.6vw,44px);border-top:1px solid var(--ink)}
+.row{display:grid;grid-template-columns:132px minmax(0,1.15fr) minmax(0,.72fr);gap:clamp(18px,2.6vw,40px);padding:clamp(24px,3vw,36px) 0;border-bottom:1px solid var(--line);align-items:start;transition:padding-left .3s var(--ease),background .3s}
+.row:hover{background:rgba(251,248,241,.5);padding-left:10px}
+.r-left{display:flex;flex-direction:column;gap:14px}
+.r-no{font-family:var(--mono);font-size:.6875rem;letter-spacing:.1em;color:var(--signal)}
+.monogram{position:relative;display:grid;place-items:center;width:96px;height:112px;border:1px solid var(--line-strong);font-family:var(--display);font-weight:600;font-size:1.5rem;letter-spacing:-.02em;transition:background .3s var(--ease),color .3s,border-color .3s}
+.monogram::before,.monogram::after{content:"";position:absolute;width:8px;height:8px;border:1px solid var(--signal);transition:border-color .3s}
+.monogram::before{top:-1px;left:-1px;border-right:0;border-bottom:0}
+.monogram::after{bottom:-1px;right:-1px;border-left:0;border-top:0}
+.row:hover .monogram{background:var(--signal);color:var(--chalk);border-color:var(--signal)}
+.row:hover .monogram::before,.row:hover .monogram::after{border-color:var(--chalk)}
+.r-main h3{font-family:var(--display);font-weight:600;font-size:clamp(1.5rem,2.3vw,1.9375rem);letter-spacing:-.03em;line-height:1.02;margin-bottom:6px}
+.r-role{font-family:var(--mono);font-size:.75rem;letter-spacing:.06em;text-transform:uppercase;color:var(--signal)}
+.r-bio{font-size:.9688rem;line-height:1.6;color:var(--ink-2);max-width:54ch;margin-top:14px}
+.r-side{border-top:1px solid var(--line-strong);padding-top:12px;display:flex;flex-direction:column;gap:10px}
+.focus-label{color:var(--ink-2)}
+.tags{display:flex;flex-wrap:wrap;gap:6px}
+.tags li{font-family:var(--mono);font-size:.6875rem;letter-spacing:.06em;border:1px solid var(--line-strong);padding:4px 8px;color:var(--ink-2)}
+.r-link{font-size:.8125rem;color:var(--signal);border-bottom:1px solid currentColor;padding-bottom:1px;align-self:flex-start;min-height:44px;display:inline-flex;align-items:center}
+.end-rule{margin:clamp(36px,5vw,64px) 0 0;border-top:1px solid var(--line);padding-top:14px;color:var(--ink-2);font-family:var(--mono);font-size:.6875rem;letter-spacing:.08em;text-transform:uppercase}
+@media(max-width:1100px){
+  .team-head>div,.team-note{grid-column:1/13}
+  .team-note{text-align:left;max-width:52ch}
+  .row{grid-template-columns:112px minmax(0,1fr)}
+  .r-side{grid-column:2/3;border-top:0;padding-top:0;margin-top:6px}
+}
+@media(max-width:720px){
+  .row{grid-template-columns:1fr;gap:16px}
+  .r-left{flex-direction:row;align-items:center;gap:16px}
+  .monogram{width:64px;height:76px;font-size:1.125rem}
+  .r-side{grid-column:1/2}
+  .r-bio{max-width:46ch}
+}
+</style>
+</head>
+<body>
+<div class="review-bar"><span><b>Option A</b> — Refined editorial roster</span><span>Team section alternative · review only</span></div>
+
+<header class="site-header">
+  <div class="shell header-bar">
+    <a class="brand" href="about.html" aria-label="LenanaLabs - home">
+      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M2 20h20M4 20Q12-3 20 20M8 20Q12 9 16 20" stroke="currentColor" stroke-width="1.4"/>
+        <circle cx="12" cy="5" r="1.5" fill="currentColor"/>
+      </svg>
+      <span>LenanaLabs</span>
+    </a>
+    <nav class="nav" aria-label="Primary">
+      <a href="about.html" aria-current="page">About</a>
+      <a href="final.html#capabilities">Capabilities</a>
+      <a href="projects.html">Projects</a>
+      <a href="#team">Contact</a>
+    </nav>
+    <div class="header-end">
+      <span class="header-loc mono">Nairobi, Kenya</span>
+      <a class="btn btn--sm" href="#team">Start a conversation <span class="arrow" aria-hidden="true">↗</span></a>
+    </div>
+  </div>
+  <div class="measure" aria-hidden="true"></div>
+</header>
+
+<main>
+  <section class="band" id="team" aria-labelledby="team-heading">
+    <div class="shell">
+      <div class="team-head">
+        <div>
+          <p class="section-label mono">05 / Team</p>
+          <h2 class="h2" id="team-heading">The people behind the work.</h2>
+        </div>
+        <p class="team-note mono">Demonstration profiles — placeholders for layout review. Names, roles, biographies and links must be approved before publication.</p>
+      </div>
+
+      <ol class="roster">
+        <li class="row">
+          <div class="r-left"><span class="r-no">01</span><span class="monogram" aria-hidden="true">NS</span></div>
+          <div class="r-main">
+            <h3>Name Surname</h3>
+            <p class="r-role">Role title</p>
+            <p class="r-bio">A short introduction: what this person contributes, the kind of technical problem that holds their attention, and how their work connects to the rest of the studio.</p>
+          </div>
+          <div class="r-side">
+            <p class="focus-label mono">Technical focus</p>
+            <ul class="tags"><li>Systems</li><li>Infrastructure</li></ul>
+            <a class="r-link" href="#team">Profile link</a>
+          </div>
+        </li>
+
+        <li class="row">
+          <div class="r-left"><span class="r-no">02</span><span class="monogram" aria-hidden="true">NS</span></div>
+          <div class="r-main">
+            <h3>Name Surname</h3>
+            <p class="r-role">Role title</p>
+            <p class="r-bio">Two or three sentences is the usual length. This one runs slightly longer to show how the row behaves when a person has more to say than a single line — the prose column widens, the monogram stays put.</p>
+          </div>
+          <div class="r-side">
+            <p class="focus-label mono">Technical focus</p>
+            <ul class="tags"><li>Interface</li><li>Documents</li></ul>
+            <a class="r-link" href="#team">Profile link</a>
+          </div>
+        </li>
+
+        <li class="row">
+          <div class="r-left"><span class="r-no">03</span><span class="monogram" aria-hidden="true">NS</span></div>
+          <div class="r-main">
+            <h3>Name Surname</h3>
+            <p class="r-role">Role title</p>
+            <p class="r-bio">Short is fine. This is what a single-sentence introduction looks like in the row.</p>
+          </div>
+          <div class="r-side">
+            <p class="focus-label mono">Technical focus</p>
+            <ul class="tags"><li>Prototypes</li><li>Evaluation</li></ul>
+          </div>
+        </li>
+      </ol>
+
+      <p class="end-rule">End of Option A preview</p>
+    </div>
+  </section>
+</main>
+</body>
+</html>

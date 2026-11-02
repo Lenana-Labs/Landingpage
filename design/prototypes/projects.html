@@ -1,0 +1,576 @@
+<!doctype html>
+<html lang="en" class="js">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Projects — LenanaLabs</title>
+<meta name="description" content="An archive of LenanaLabs work as it develops: client engineering, internal products, and technical experiments — indexed by category and status.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=IBM+Plex+Mono:wght@400;500&family=Instrument+Sans:wght@400..600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="lab.css">
+<style>
+/* ── Projects page ──────────────────────────────────────── */
+.band{padding:clamp(52px,6.5vw,96px) 0}
+.projects-hero{padding-top:clamp(24px,3vw,40px)}
+.projects-hero .mono-row{color:var(--ink-2)}
+.ph-grid{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));column-gap:clamp(14px,1.8vw,26px);row-gap:clamp(22px,3vw,34px);align-items:end;margin-top:clamp(20px,3vw,34px)}
+.projects-hero h1{grid-column:1/9;font-family:var(--display);font-weight:600;font-size:clamp(2.5rem,5.9vw,5.6rem);line-height:.9;letter-spacing:-.055em;text-wrap:balance}
+.projects-hero h1 em{font-style:normal;color:var(--signal)}
+.archive-meta{grid-column:10/13;border-top:1px solid var(--ink)}
+.archive-meta>div{display:flex;justify-content:space-between;align-items:baseline;gap:12px;padding:10px 0;border-bottom:1px solid var(--line)}
+.archive-meta dt{font-family:var(--mono);font-size:.6875rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-2)}
+.archive-meta dd{margin:0;font-family:var(--mono);font-size:.8125rem;letter-spacing:.03em}
+.ph-lower{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));column-gap:clamp(14px,1.8vw,26px);row-gap:20px;margin-top:clamp(24px,3vw,40px);align-items:start}
+.ph-lede{grid-column:1/7;font-size:clamp(1.0625rem,1.35vw,1.1875rem);line-height:1.55;color:var(--ink-2);max-width:46ch}
+.state-switch{grid-column:9/13;display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:flex-end}
+.state-switch .lbl{color:var(--ink-2);width:100%;text-align:right;margin-bottom:2px}
+.state-switch a{display:inline-flex;align-items:center;min-height:40px;padding:0 12px;border:1px solid var(--line-strong);font-size:.8125rem;transition:background .2s,color .2s,border-color .2s}
+.state-switch a:hover{border-color:var(--ink)}
+.state-switch a[aria-current="true"]{background:var(--ink);color:var(--chalk);border-color:var(--ink)}
+
+/* Index figure — one mark per published entry */
+.index-plate{border:1px solid var(--ink);background:var(--chalk);margin-top:clamp(28px,3.6vw,44px)}
+.ip-head,.ip-foot{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:12px 16px;color:var(--ink-2);font-size:.75rem}
+.ip-head{border-bottom:1px solid var(--line)}
+.ip-foot{border-top:1px solid var(--line)}
+.ip-body{padding:clamp(8px,1.2vw,14px) clamp(14px,1.8vw,20px)}
+.ip-row{display:grid;grid-template-columns:150px minmax(0,1fr) 40px;gap:clamp(12px,2vw,22px);align-items:center;padding:14px 0;border-bottom:1px solid var(--line)}
+.ip-row:last-child{border-bottom:0}
+.ip-cat{color:var(--ink-2);font-size:.75rem}
+.ip-cells{display:flex;flex-wrap:wrap;gap:6px;min-height:20px;align-items:center}
+.ip-mark{width:9px;height:20px;background:var(--signal);border:1px solid var(--signal);transition:transform .2s var(--ease),background .2s}
+.ip-mark:hover{transform:translateY(-3px)}
+.ip-none{height:1px;width:100%;background:var(--line-strong)}
+.ip-count{text-align:right;color:var(--ink-2);font-size:.75rem;font-variant-numeric:tabular-nums}
+.ip-readout{color:var(--signal)}
+
+/* Demo banner */
+.demo-banner{display:flex;align-items:center;gap:14px;flex-wrap:wrap;justify-content:space-between;background:var(--mustard);color:var(--ink);border:1px solid var(--ink);padding:12px 16px;margin-top:clamp(22px,3vw,32px)}
+.demo-banner p{font-size:.9375rem;line-height:1.45;max-width:62ch}
+.demo-banner b{font-family:var(--mono);font-size:.6875rem;letter-spacing:.1em;text-transform:uppercase;border:1px solid var(--ink);padding:3px 7px;margin-right:8px;white-space:nowrap}
+
+/* Filters */
+.filters{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:clamp(22px,3vw,30px)}
+.filters .lbl{color:var(--ink-2);margin-right:6px}
+.filter{display:inline-flex;align-items:center;gap:9px;min-height:44px;padding:0 14px;border:1px solid var(--line-strong);background:transparent;cursor:pointer;font-size:.875rem;transition:background .2s,color .2s,border-color .2s}
+.filter:hover{border-color:var(--ink)}
+.filter .count{font-family:var(--mono);font-size:.6875rem;letter-spacing:.06em;color:var(--ink-2)}
+.filter[aria-pressed="true"]{background:var(--ink);color:var(--chalk);border-color:var(--ink)}
+.filter[aria-pressed="true"] .count{color:rgba(251,248,241,.7)}
+
+/* Entries */
+.entries{margin-top:clamp(18px,2.4vw,26px);border-top:1px solid var(--ink)}
+.entry{display:grid;grid-template-columns:46px minmax(0,1fr) 268px 26px;gap:clamp(14px,2vw,28px);align-items:start;padding:clamp(22px,2.6vw,30px) 0;border-bottom:1px solid var(--line);position:relative;transition:background .3s var(--ease),padding-left .3s var(--ease)}
+.entry::before{content:"";position:absolute;left:-1px;top:0;bottom:0;width:2px;background:var(--signal);transform:scaleY(0);transform-origin:top;transition:transform .35s var(--ease)}
+.entry:hover,.entry:focus-within{background:var(--chalk);padding-left:12px}
+.entry:hover::before,.entry:focus-within::before{transform:scaleY(1)}
+.e-index{font-family:var(--mono);font-size:.6875rem;letter-spacing:.08em;color:var(--signal);padding-top:.55em}
+.e-main h3{font-family:var(--display);font-weight:600;font-size:clamp(1.25rem,1.9vw,1.5rem);line-height:1.12;letter-spacing:-.03em;margin-bottom:8px;max-width:34ch}
+.e-main p{font-size:.9375rem;line-height:1.55;color:var(--ink-2);max-width:54ch}
+.e-meta{display:flex;flex-direction:column;gap:10px;align-items:flex-start}
+.tagline{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.cat{font-family:var(--mono);font-size:.6875rem;letter-spacing:.08em;text-transform:uppercase;border:1px solid var(--line-strong);padding:4px 8px;color:var(--ink-2)}
+.status{display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);font-size:.6875rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-2)}
+.status::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--ink-2);flex:none}
+.status--published::before{background:var(--pine)}
+.status--dev::before{background:var(--signal)}
+.status--proto::before{background:#8A6A1F}
+.status--explore::before{background:transparent;border:1px solid var(--ink-2)}
+.tech{display:flex;flex-wrap:wrap;gap:8px}
+.tech li{font-family:var(--mono);font-size:.6875rem;letter-spacing:.03em;color:var(--ink-2);border-bottom:1px solid var(--line)}
+.e-arrow{font-size:1rem;color:var(--line-strong);justify-self:end;transition:transform .3s var(--ease),color .2s}
+.entry:hover .e-arrow{color:var(--signal);transform:translate(2px,-2px)}
+.e-link{font-size:.8125rem;color:var(--signal);border-bottom:1px solid currentColor;padding-bottom:1px;align-self:flex-start}
+.e-link--disabled{color:var(--ink-2);border-bottom-style:dashed;border-color:var(--line-strong);cursor:default}
+.entry[hidden]{display:none}
+
+/* Featured entry */
+.entry--featured{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:clamp(16px,2.4vw,34px);padding:clamp(24px,3vw,34px) 0 clamp(26px,3vw,36px);border-bottom:1px solid var(--line);background:transparent;padding-left:0}
+.entry--featured:hover{background:transparent;padding-left:0}
+.feature-visual{grid-column:1/6;position:relative;border:1px solid var(--line-strong);background:
+  repeating-linear-gradient(135deg,rgba(23,21,15,.05) 0 1px,transparent 1px 11px),var(--deep);min-height:240px;display:grid;place-items:center;overflow:hidden}
+.feature-visual::before,.feature-visual::after{content:"";position:absolute;left:50%;top:0;bottom:0;width:1px;background:var(--line);transform-origin:center}
+.feature-visual::before{transform:rotate(24deg)}
+.feature-visual::after{transform:rotate(-24deg)}
+.feature-visual span{position:relative;z-index:1;background:var(--chalk);border:1px solid var(--line-strong);padding:6px 10px;color:var(--ink-2);font-family:var(--mono);font-size:.6875rem;letter-spacing:.06em;text-transform:uppercase}
+.feature-body{grid-column:6/12;display:flex;flex-direction:column;gap:12px}
+.feature-body .kicker{display:flex;flex-wrap:wrap;gap:12px;align-items:center;color:var(--ink-2);font-size:.75rem}
+.feature-body h3{font-family:var(--display);font-weight:600;font-size:clamp(1.5rem,2.6vw,2.1rem);line-height:1.05;letter-spacing:-.035em;max-width:26ch}
+.feature-body p{font-size:.9688rem;line-height:1.55;color:var(--ink-2);max-width:52ch}
+.feature-body .tech{margin-top:2px}
+
+/* Empty state — one statement, one action set */
+.empty-state{margin-top:clamp(30px,4vw,48px);max-width:58ch;padding-bottom:clamp(4px,1vw,10px)}
+.empty-state h2{font-family:var(--display);font-weight:600;font-size:clamp(1.75rem,3.4vw,2.75rem);line-height:1;letter-spacing:-.04em;margin:10px 0 16px;max-width:18ch}
+.empty-state p{font-size:1rem;line-height:1.6;color:var(--ink-2)}
+.empty-actions{display:flex;align-items:center;gap:20px;flex-wrap:wrap;margin-top:26px}
+
+/* Definitions */
+.defs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(16px,2.4vw,32px);margin-top:clamp(34px,4.4vw,56px);border-top:1px solid var(--line);padding-top:clamp(18px,2.4vw,26px)}
+.def .n{font-family:var(--mono);font-size:.6875rem;letter-spacing:.1em;color:var(--signal);display:block;margin-bottom:9px}
+.def h3{font-family:var(--display);font-weight:600;font-size:1.125rem;letter-spacing:-.02em;margin-bottom:6px}
+.def p{font-size:.875rem;line-height:1.55;color:var(--ink-2)}
+
+/* CTA */
+.cta{background:var(--pine);color:var(--chalk);padding:clamp(48px,6vw,88px) 0}
+.cta .section-label{color:rgba(251,248,241,.55)}
+.cta-row{display:flex;justify-content:space-between;align-items:flex-end;gap:clamp(20px,4vw,56px);flex-wrap:wrap;margin-top:14px}
+.cta h2{font-family:var(--display);font-weight:600;font-size:clamp(2rem,4.2vw,3.4rem);line-height:.98;letter-spacing:-.045em;max-width:18ch}
+.cta-side{display:flex;flex-direction:column;gap:14px;align-items:flex-start}
+.cta .btn{background:var(--mustard);border-color:var(--mustard);color:var(--ink)}
+.cta .btn:hover{background:var(--chalk);border-color:var(--chalk);color:var(--ink)}
+.cta .link-arrow{color:rgba(251,248,241,.8);border-color:rgba(251,248,241,.4)}
+.cta .link-arrow:hover{color:var(--mustard);border-color:var(--mustard)}
+
+@media(max-width:1100px){
+  .projects-hero h1,.archive-meta,.ph-lede,.state-switch{grid-column:1/13}
+  .state-switch{justify-content:flex-start}
+  .state-switch .lbl{text-align:left}
+  .entry{grid-template-columns:38px minmax(0,1fr) 220px}
+  .e-arrow{display:none}
+  .entry--featured{grid-template-columns:repeat(12,minmax(0,1fr))}
+  .feature-visual{grid-column:1/13;min-height:190px}
+  .feature-body{grid-column:1/13}
+  .defs{grid-template-columns:1fr;gap:22px}
+}
+@media(max-width:720px){
+  .projects-hero h1{font-size:clamp(2.3rem,10vw,3.1rem)}
+  .ip-row{grid-template-columns:minmax(0,1fr) 34px;row-gap:8px}
+  .ip-cat{grid-column:1/3;font-size:.6875rem}
+  .entry{grid-template-columns:30px minmax(0,1fr);gap:12px}
+  .e-meta{grid-column:2/3;margin-top:8px}
+  .e-main h3{max-width:none}
+  .filter{min-height:44px;padding:0 11px;font-size:.8125rem}
+  .empty-actions .btn{width:100%;justify-content:space-between}
+  .cta-side{width:100%}
+  .cta-side .btn{width:100%;justify-content:space-between}
+  .state-switch a{flex:1 1 auto;justify-content:center}
+}
+</style>
+</head>
+<body id="top">
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <div class="shell header-bar">
+    <a class="brand" href="final.html" aria-label="LenanaLabs - home">
+      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M2 20h20M4 20Q12-3 20 20M8 20Q12 9 16 20" stroke="currentColor" stroke-width="1.4"/>
+        <circle cx="12" cy="5" r="1.5" fill="currentColor"/>
+      </svg>
+      <span>LenanaLabs</span>
+    </a>
+    <nav class="nav" aria-label="Primary">
+      <a href="about.html">About</a>
+      <a href="final.html#capabilities">Capabilities</a>
+      <a href="projects.html" aria-current="page">Projects</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <div class="header-end">
+      <span class="header-loc mono">Nairobi, Kenya</span>
+      <a class="btn btn--sm" href="#contact">Start a conversation <span class="arrow" aria-hidden="true">↗</span></a>
+      <button class="menu-btn" id="menu-open" aria-expanded="false" aria-controls="mobile-menu">Menu</button>
+    </div>
+  </div>
+  <div class="measure" aria-hidden="true"></div>
+</header>
+
+<div class="mobile-menu" id="mobile-menu" hidden>
+  <div class="mm-top">
+    <span class="mono">LenanaLabs / Menu</span>
+    <button class="mm-close" id="menu-close">Close</button>
+  </div>
+  <nav aria-label="Mobile">
+    <a href="about.html">About <span aria-hidden="true">↗</span></a>
+    <a href="final.html#capabilities">Capabilities <span aria-hidden="true">↗</span></a>
+    <a href="projects.html" aria-current="page">Projects <span aria-hidden="true">↗</span></a>
+    <a href="#contact">Contact <span aria-hidden="true">↗</span></a>
+  </nav>
+  <p class="mm-foot mono">Nairobi, Kenya · 1°17′S 36°49′E</p>
+</div>
+
+<main id="main">
+  <section class="projects-hero">
+    <div class="shell">
+      <div class="mono-row mono"><span>Projects / Archive</span><span id="hero-index-label">Index 000 · Nairobi, Kenya</span></div>
+      <div class="ph-grid">
+        <h1>Things we're building, <em>testing</em>, and exploring.</h1>
+        <dl class="archive-meta">
+          <div><dt>Entries</dt><dd id="meta-count">000</dd></div>
+          <div><dt>Categories</dt><dd id="meta-cats">0 / 3</dd></div>
+          <div><dt>Updated</dt><dd>Nov 2026</dd></div>
+          <div><dt>Status</dt><dd>Open</dd></div>
+        </dl>
+      </div>
+      <div class="ph-lower">
+        <p class="ph-lede">An archive of the studio's work as it develops — client engineering, internal products, and experiments that have not decided what they are yet. Only work we are allowed to publish appears here.</p>
+        <div class="state-switch">
+          <span class="mono lbl">Review states</span>
+          <a href="projects.html#empty" data-state="empty">Empty</a>
+          <a href="projects.html#one" data-state="one">One project</a>
+          <a href="projects.html#demo" data-state="demo">Demonstration data</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="band" id="archive" style="padding-top:0" aria-label="Project archive">
+    <div class="shell">
+      <figure class="index-plate">
+        <div class="ip-head mono">
+          <span>Fig. 01 — Archive index</span>
+          <span id="ip-summary">0 entries · 0 of 3 categories</span>
+        </div>
+        <div class="ip-body" id="ip-body"></div>
+        <figcaption class="ip-foot mono">
+          <span class="ip-readout" id="ip-readout" aria-live="polite">Each mark is one published entry</span>
+          <span id="ip-note">Nothing indexed yet</span>
+        </figcaption>
+      </figure>
+
+      <div class="demo-banner" id="demo-banner" hidden>
+        <p><b>Demo</b>Fictional entries used to review layout only — not real LenanaLabs projects. Production ships the empty state.</p>
+        <a class="e-link" href="projects.html#empty">Return to empty state</a>
+      </div>
+
+      <div class="filters" id="filters" hidden>
+        <span class="mono lbl">Filter</span>
+        <button class="filter" type="button" data-filter="all" aria-pressed="true">All <span class="count" data-count="all">0</span></button>
+        <button class="filter" type="button" data-filter="client" aria-pressed="false">Client work <span class="count" data-count="client">0</span></button>
+        <button class="filter" type="button" data-filter="product" aria-pressed="false">Internal products <span class="count" data-count="product">0</span></button>
+        <button class="filter" type="button" data-filter="experiment" aria-pressed="false">Experiments <span class="count" data-count="experiment">0</span></button>
+      </div>
+
+      <div class="entries" id="entries" aria-live="polite"></div>
+
+      <div class="empty-state" id="empty-state">
+        <p class="section-label mono">Archive / 0 entries</p>
+        <h2>The archive is taking shape.</h2>
+        <p>We are building and exploring. Work appears here when there is something meaningful to share — with its category, its status, and an honest note about what it is.</p>
+        <div class="empty-actions">
+          <a class="btn" href="#contact">Talk about a problem <span class="arrow" aria-hidden="true">↗</span></a>
+          <a class="link-arrow" href="about.html">Read how we work <span aria-hidden="true">→</span></a>
+        </div>
+      </div>
+
+      <div class="defs">
+        <article class="def"><span class="n mono">Cat. 01</span><h3>Client work</h3><p>Technology built for an external team, published only with their permission and only once it is real.</p></article>
+        <article class="def"><span class="n mono">Cat. 02</span><h3>Internal products</h3><p>Software and tools we own and operate — the decisions in these are ours to live with.</p></article>
+        <article class="def"><span class="n mono">Cat. 03</span><h3>Experiments</h3><p>Prototypes and technical investigations, kept even when the answer was "not this way".</p></article>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta" id="contact">
+    <div class="shell">
+      <p class="section-label mono">Next</p>
+      <div class="cta-row">
+        <h2>Have a problem worth exploring?</h2>
+        <div class="cta-side">
+          <a class="btn" href="mailto:ngigemwaniki2004@gmail.com">Start a conversation <span class="arrow" aria-hidden="true">↗</span></a>
+          <a class="link-arrow" href="mailto:ngigemwaniki2004@gmail.com">ngigemwaniki2004@gmail.com <span aria-hidden="true">→</span></a>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="shell">
+    <div class="footer-top">
+      <div>
+        <a class="footer-brand" href="final.html">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M2 20h20M4 20Q12-3 20 20M8 20Q12 9 16 20" stroke="currentColor" stroke-width="1.4"/>
+            <circle cx="12" cy="5" r="1.5" fill="currentColor"/>
+          </svg>
+          <span>LenanaLabs</span>
+        </a>
+        <p class="mono" style="margin-top:14px;color:rgba(251,248,241,.5)">Early-stage studio · Nairobi, Kenya</p>
+      </div>
+      <div class="footer-cols">
+        <div>
+          <h2>Studio</h2>
+          <ul>
+            <li><a href="about.html">About</a></li>
+            <li><a href="final.html#capabilities">Capabilities</a></li>
+            <li><a href="final.html#approach">Approach</a></li>
+            <li><a href="final.html#lab">Lab</a></li>
+          </ul>
+        </div>
+        <div>
+          <h2>Contact</h2>
+          <ul>
+            <li><a href="mailto:ngigemwaniki2004@gmail.com">Email</a></li>
+            <li><a href="#contact">Start a conversation</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <p class="footer-word" aria-hidden="true">LENANALABS</p>
+    <div class="footer-bottom">
+      <span>© <span id="year">2026</span> LenanaLabs</span>
+      <span>Built with curiosity. Grounded in engineering.</span>
+      <a href="#top">Back to top <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg></a>
+    </div>
+  </div>
+</footer>
+
+<script src="lab.js"></script>
+<script>
+(function () {
+  "use strict";
+
+  /* Demonstration entries — fictional, for layout review only. */
+  var DEMO = [
+    { title: "A reconciliation engine for payments that arrive twice", desc: "Matching duplicate and delayed settlement events across two systems that were never designed to talk to each other.", cat: "client", catLabel: "Client work", status: "Published", statusKey: "published", tech: ["TypeScript", "Postgres", "Queues"], year: "2026" },
+    { title: "Ledger — a small tool for tracking technical experiments", desc: "Every experiment gets a question, a hypothesis, a result and a date. No dashboard until someone asks for one.", cat: "product", catLabel: "Internal product", status: "In development", statusKey: "dev", tech: ["Next.js", "SQLite"], year: "2026" },
+    { title: "Can a local model triage support mail?", desc: "A four-week test of whether a small on-device model could sort incoming mail without sending anything to a third party.", cat: "experiment", catLabel: "Experiment", status: "Prototype", statusKey: "proto", tech: ["Python", "ONNX"], year: "2025" },
+    { title: "An operations dashboard for a clinic network that runs on intermittent power and unreliable connectivity", desc: "Designed around the failure cases first: offline-first data entry, conflict resolution, and a printable fallback for the days nothing works.", cat: "client", catLabel: "Client work", status: "Exploring", statusKey: "explore", tech: [], year: "2026" },
+    { title: "Notes toward a queue that survives a power cut", desc: "What actually happens to in-flight work when the machine stops between two writes — and what a small studio can afford to do about it.", cat: "experiment", catLabel: "Experiment", status: "Exploring", statusKey: "explore", tech: ["Redis"], year: "2025" }
+  ];
+
+  var CATS = [
+    { key: "client", label: "Client work" },
+    { key: "product", label: "Internal products" },
+    { key: "experiment", label: "Experiments" }
+  ];
+
+  var state = (location.hash || "#empty").replace("#", "");
+  if (["empty", "one", "demo"].indexOf(state) === -1) state = "empty";
+
+  var list = state === "demo" ? DEMO.slice() : state === "one" ? DEMO.slice(0, 1) : [];
+
+  var entriesEl = document.getElementById("entries");
+  var emptyEl = document.getElementById("empty-state");
+  var bannerEl = document.getElementById("demo-banner");
+  var filtersEl = document.getElementById("filters");
+  var bodyEl = document.getElementById("ip-body");
+  var readout = document.getElementById("ip-readout");
+
+  var counts = { all: list.length, client: 0, product: 0, experiment: 0 };
+  list.forEach(function (p) { counts[p.cat] += 1; });
+  var usedCats = CATS.filter(function (c) { return counts[c.key] > 0; }).length;
+
+  /* ── Index figure: one mark per entry, grouped by category ── */
+  CATS.forEach(function (c) {
+    var row = document.createElement("div");
+    row.className = "ip-row";
+
+    var label = document.createElement("span");
+    label.className = "ip-cat mono";
+    label.textContent = c.label;
+
+    var cells = document.createElement("div");
+    cells.className = "ip-cells";
+
+    var items = list.filter(function (p) { return p.cat === c.key; });
+    if (items.length) {
+      items.forEach(function (p, i) {
+        var mark = document.createElement("span");
+        mark.className = "ip-mark";
+        mark.dataset.tip = c.label + " · " + p.status;
+        mark.setAttribute("aria-hidden", "true");
+        cells.appendChild(mark);
+      });
+    } else {
+      var rail = document.createElement("span");
+      rail.className = "ip-none";
+      rail.setAttribute("aria-hidden", "true");
+      cells.appendChild(rail);
+    }
+
+    var count = document.createElement("span");
+    count.className = "ip-count mono";
+    count.textContent = String(items.length).padStart(2, "0");
+
+    row.appendChild(label);
+    row.appendChild(cells);
+    row.appendChild(count);
+    bodyEl.appendChild(row);
+  });
+
+  document.getElementById("ip-summary").textContent =
+    list.length + (list.length === 1 ? " entry" : " entries") + " · " + usedCats + " of 3 categories";
+  document.getElementById("ip-note").textContent = list.length ? "Marks follow the data" : "Nothing indexed yet";
+  document.getElementById("meta-count").textContent = String(list.length).padStart(3, "0");
+  document.getElementById("meta-cats").textContent = usedCats + " / 3";
+  document.getElementById("hero-index-label").textContent = "Index " + String(list.length).padStart(3, "0") + " · Nairobi, Kenya";
+
+  bodyEl.addEventListener("mouseover", function (e) {
+    var mark = e.target.closest(".ip-mark");
+    if (mark) readout.textContent = mark.dataset.tip;
+  });
+  bodyEl.addEventListener("mouseleave", function () {
+    readout.textContent = "Each mark is one published entry";
+  });
+
+  document.querySelectorAll(".state-switch a").forEach(function (a) {
+    if (a.dataset.state === state) a.setAttribute("aria-current", "true");
+  });
+
+  if (!list.length) {
+    emptyEl.hidden = false;
+    bannerEl.hidden = true;
+    filtersEl.hidden = true;
+    entriesEl.hidden = true;
+    return;
+  }
+
+  emptyEl.hidden = true;
+  bannerEl.hidden = false;
+  entriesEl.hidden = false;
+
+  Object.keys(counts).forEach(function (k) {
+    var el = document.querySelector('[data-count="' + k + '"]');
+    if (el) el.textContent = counts[k];
+  });
+
+  filtersEl.hidden = !(list.length > 1 && usedCats > 1);
+
+  function entryRow(p, index) {
+    var article = document.createElement("article");
+    article.className = "entry";
+    article.dataset.cat = p.cat;
+
+    var idx = document.createElement("span");
+    idx.className = "e-index";
+    idx.textContent = String(index + 1).padStart(3, "0");
+
+    var main = document.createElement("div");
+    main.className = "e-main";
+    var h3 = document.createElement("h3");
+    h3.textContent = p.title;
+    var para = document.createElement("p");
+    para.textContent = p.desc;
+    main.appendChild(h3);
+    main.appendChild(para);
+
+    var meta = document.createElement("div");
+    meta.className = "e-meta";
+    var line = document.createElement("div");
+    line.className = "tagline";
+    var cat = document.createElement("span");
+    cat.className = "cat";
+    cat.textContent = p.catLabel;
+    var status = document.createElement("span");
+    status.className = "status status--" + p.statusKey;
+    status.textContent = p.status;
+    line.appendChild(cat);
+    line.appendChild(status);
+    meta.appendChild(line);
+
+    if (p.tech.length) {
+      var tech = document.createElement("ul");
+      tech.className = "tech";
+      p.tech.forEach(function (t) {
+        var li = document.createElement("li");
+        li.textContent = t;
+        tech.appendChild(li);
+      });
+      meta.appendChild(tech);
+    }
+
+    var link = document.createElement("span");
+    link.className = "e-link e-link--disabled";
+    link.textContent = "Case study — in preparation";
+    link.setAttribute("aria-disabled", "true");
+    meta.appendChild(link);
+
+    var arrow = document.createElement("span");
+    arrow.className = "e-arrow";
+    arrow.setAttribute("aria-hidden", "true");
+    arrow.textContent = "↗";
+
+    article.appendChild(idx);
+    article.appendChild(main);
+    article.appendChild(meta);
+    article.appendChild(arrow);
+    return article;
+  }
+
+  function featuredEntry(p) {
+    var article = document.createElement("article");
+    article.className = "entry entry--featured";
+    article.dataset.cat = p.cat;
+
+    var visual = document.createElement("div");
+    visual.className = "feature-visual";
+    visual.setAttribute("aria-hidden", "true");
+    var tag = document.createElement("span");
+    tag.textContent = "Preview not available";
+    visual.appendChild(tag);
+
+    var body = document.createElement("div");
+    body.className = "feature-body";
+
+    var kicker = document.createElement("div");
+    kicker.className = "kicker mono";
+    var k1 = document.createElement("span");
+    k1.textContent = "Featured / " + p.catLabel;
+    var k2 = document.createElement("span");
+    k2.className = "status status--" + p.statusKey;
+    k2.textContent = p.status;
+    var k3 = document.createElement("span");
+    k3.textContent = p.year;
+    kicker.appendChild(k1);
+    kicker.appendChild(k2);
+    kicker.appendChild(k3);
+
+    var h3 = document.createElement("h3");
+    h3.textContent = p.title;
+    var para = document.createElement("p");
+    para.textContent = p.desc;
+
+    body.appendChild(kicker);
+    body.appendChild(h3);
+    body.appendChild(para);
+
+    if (p.tech.length) {
+      var tech = document.createElement("ul");
+      tech.className = "tech";
+      p.tech.forEach(function (t) {
+        var li = document.createElement("li");
+        li.textContent = t;
+        tech.appendChild(li);
+      });
+      body.appendChild(tech);
+    }
+
+    var link = document.createElement("span");
+    link.className = "e-link e-link--disabled";
+    link.textContent = "Case study — in preparation";
+    link.setAttribute("aria-disabled", "true");
+    body.appendChild(link);
+
+    article.appendChild(visual);
+    article.appendChild(body);
+    return article;
+  }
+
+  entriesEl.appendChild(featuredEntry(list[0]));
+  list.slice(1).forEach(function (p, i) {
+    entriesEl.appendChild(entryRow(p, i + 1));
+  });
+
+  filtersEl.addEventListener("click", function (e) {
+    var btn = e.target.closest(".filter");
+    if (!btn) return;
+    filtersEl.querySelectorAll(".filter").forEach(function (b) {
+      b.setAttribute("aria-pressed", String(b === btn));
+    });
+    var f = btn.dataset.filter;
+    entriesEl.querySelectorAll(".entry").forEach(function (row) {
+      row.hidden = !(f === "all" || row.dataset.cat === f);
+    });
+  });
+
+  window.addEventListener("hashchange", function () {
+    var h = location.hash.replace("#", "");
+    if (h === "empty" || h === "one" || h === "demo") location.reload();
+  });
+})();
+</script>
+</body>
+</html>

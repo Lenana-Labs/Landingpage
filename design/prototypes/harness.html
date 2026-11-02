@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Viewport harness</title>
+<style>
+  html,body{margin:0;background:#111;color:#ddd;font:12px/1.4 ui-monospace,monospace}
+  .frame{margin:0;padding:0;overflow:hidden;position:relative}
+  .frame iframe{border:0;display:block;position:absolute;top:0;left:0;transform-origin:top left}
+  .label{padding:4px 8px;color:#888}
+</style>
+</head>
+<body>
+<div class="label" id="l1">…</div>
+<div class="frame" id="f1"><iframe title="preview"></iframe></div>
+<script>
+  // hash format:  #source.html|width|scale|offsetPx
+  const parts = (location.hash || "#final.html|1440|0.325|0").slice(1).split("|");
+  const src = parts[0] || "final.html";
+  const w = Number(parts[1] || 1440);
+  const s = Number(parts[2] || 0.325);
+  const o = Number(parts[3] || 0);
+  const h = Number(parts[4] || 2200);
+  const f = document.getElementById("f1");
+  const i = f.querySelector("iframe");
+  i.src = src + "?v=" + Date.now() + (parts[5] ? "#" + parts[5] : ""); i.width = w; i.height = h;
+  i.style.transform = `scale(${s})`;
+  i.style.top = (-o * s) + "px";
+  f.style.width = (w * s) + "px";
+  f.style.height = (h * s) + "px";
+  document.getElementById("l1").textContent = `${src} @ ${w}px · ${s} · offset ${o}`;
+</script>
+</body>
+</html>
