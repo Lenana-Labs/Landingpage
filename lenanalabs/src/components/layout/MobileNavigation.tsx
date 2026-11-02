@@ -1,11 +1,12 @@
 "use client";
+import Link from "next/link";
 import { ArrowUpRight, Plus, X } from "lucide-react";
 
 
 import { useEffect, useRef, useState, type KeyboardEvent } from "react";
 import { navigation, site } from "@/config/site";
 
-export default function MobileNavigation() {
+export default function MobileNavigation({ activePage = "/" }: { activePage?: string }) {
   const [open, setOpen] = useState(false);
   const trigger = useRef<HTMLButtonElement>(null);
   const dialog = useRef<HTMLDialogElement>(null);
@@ -60,9 +61,9 @@ export default function MobileNavigation() {
         </div>
         <nav aria-label="Mobile">
           {navigation.map(link => (
-            <a key={link.href} href={link.href} onClick={() => setOpen(false)}>
+            <Link key={link.href} href={link.href} aria-current={activePage === link.href ? "page" : undefined} onClick={() => setOpen(false)}>
               {link.label}<ArrowUpRight size={18} aria-hidden="true" />
-            </a>
+            </Link>
           ))}
         </nav>
         <p className="mm-foot mono">{site.location} / {site.timezone}</p>

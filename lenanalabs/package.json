@@ -8,8 +8,9 @@
     "start": "next start",
     "lint": "eslint",
     "typecheck": "tsc --noEmit",
-    "test": "node --test scripts/unit.test.mjs",
-    "test:browser": "node scripts/browser-smoke.mjs"
+    "test": "node --test scripts/*.test.mjs",
+    "test:browser": "node scripts/browser-smoke.mjs",
+    "test:pages": "node scripts/pages-browser.mjs"
   },
   "dependencies": {
     "lucide-react": "^1.66.0",

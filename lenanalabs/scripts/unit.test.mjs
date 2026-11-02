@@ -1,25 +1,13 @@
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
-import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
-import { resolve } from 'node:path';
-import { pathToFileURL } from 'node:url';
-import ts from 'typescript';
 import { createElement } from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
+import { source } from './test-source.mjs';
 
-// Transpile the real source with the already-installed compiler; no additional framework.
-mkdirSync('.taste-skill/testmodules', { recursive: true });
-async function source(path, name) {
-  let code = ts.transpileModule(readFileSync(path, 'utf8'), { compilerOptions: { target: ts.ScriptTarget.ES2020, module: ts.ModuleKind.ESNext, jsx: ts.JsxEmit.ReactJSX } }).outputText;
-  code = code.replaceAll('@/data/projects', './projects.mjs');
-  const target = resolve(`.taste-skill/testmodules/${name}.mjs`);
-  writeFileSync(target, code);
-  return import(pathToFileURL(target).href);
-}
-const terrain = await source('src/lib/terrain.ts', 'terrain');
-const contact = await source('src/lib/contact.ts', 'contact');
-const projects = await source('src/data/projects.ts', 'projects');
-const { default: Lab } = await source('src/components/sections/Lab.tsx', 'Lab');
+const terrain = await source('src/lib/terrain.ts');
+const contact = await source('src/lib/contact.ts');
+const projects = await source('src/data/projects.ts');
+const { default: Lab } = await source('src/components/sections/Lab.tsx');
 
 test('terrain geometry is deterministic, closed, and finite', () => {
   assert.equal(terrain.contours.length, 24);
@@ -48,7 +36,7 @@ test('fallback safely encodes an email draft without claiming delivery', () => {
 test('Lab empty state and populated state use the same component', () => {
   assert.equal(projects.projects.length, 0);
   assert.match(renderToStaticMarkup(createElement(Lab)), /No public entries yet/);
-  const fixture = {id:'fixture', title:'Test fixture', description:'For automated testing only.',category:'experiment',status:'prototype',url:'https://example.com/tool'};
+  const fixture = {id:'fixture', title:'Test fixture', description:'For automated testing only.',category:'experiment',status:'prototype',visibility:'public',url:'https://example.com/tool'};
   const populated = renderToStaticMarkup(createElement(Lab, {entries:[fixture]}));
   assert.match(populated, /1 entry/);
   assert.match(populated, /noopener noreferrer/);

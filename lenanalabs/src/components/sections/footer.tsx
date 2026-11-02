@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { ArrowUp } from "lucide-react";
 import BrandMark from "@/components/visuals/BrandMark";
 import { site } from "@/config/site";
@@ -7,10 +8,10 @@ export default async function Footer() {
   <div className="shell">
     <div className="footer-top">
       <div>
-        <a className="footer-brand" href="#top">
+        <Link className="footer-brand" href="/">
           <BrandMark />
           <span>LenanaLabs</span>
-        </a>
+        </Link>
         <p className="mono" style={{ marginTop: "14px", color: "rgba(251,248,241,.5)" }}>Early-stage studio · {site.location}</p>
       </div>
       <div className="footer-cols">
@@ -18,16 +19,16 @@ export default async function Footer() {
           <h2>Studio</h2>
           <ul>
             <li>
-    <a href="#about">About</a>
+    <Link href="/about">About</Link>
     </li>
             <li>
-    <a href="#capabilities">Capabilities</a>
+    <Link href="/projects">Projects</Link></li><li><Link href="/#capabilities">Capabilities</Link>
     </li>
             <li>
-    <a href="#approach">Approach</a>
+    <Link href="/#approach">Approach</Link>
     </li>
             <li>
-    <a href="#lab">Lab</a>
+    <Link href="/#lab">Lab</Link>
     </li>
           </ul>
         </div>
@@ -38,7 +39,7 @@ export default async function Footer() {
     <a href={`mailto:${site.email}`}>Email</a>
     </li>
             <li>
-    <a href="#contact">Start a conversation</a>
+    <Link href="/#contact">Start a conversation</Link>
     </li>
           </ul>
         </div>
@@ -49,7 +50,7 @@ export default async function Footer() {
     <div className="footer-bottom">
       <span>© <span id="year">{new Date().getFullYear()}</span> LenanaLabs</span>
       <span>Built with curiosity. Grounded in engineering.</span>
-      <a href="#top">Back to top <ArrowUp size={16} aria-hidden="true" /></a>
+      <Link href="#main-content">Back to top <ArrowUp size={16} aria-hidden="true" /></Link>
     </div>
   </div>
     </footer>);

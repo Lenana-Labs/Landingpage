@@ -61,7 +61,7 @@ try{
    await page.eval(()=>document.querySelector('dialog nav a:last-child').focus());await key(page,'Tab',9);
    assert.equal(await page.eval(()=>document.querySelector('dialog').contains(document.activeElement)),true);
    await key(page,'Escape',27);assert.equal(await page.eval(()=>document.querySelector('dialog').open),false);assert.equal(await page.eval(()=>document.activeElement.className),'menu-btn');
-   await page.eval(()=>document.querySelector('.menu-btn').click());await settle(page);await page.eval(()=>document.querySelector('dialog a[href="#contact"]').click());await settle(page);assert.equal(await page.eval(()=>document.querySelector('dialog').open),false);
+   await page.eval(()=>document.querySelector('.menu-btn').click());await settle(page);await page.eval(()=>document.querySelector('dialog a[href="/#contact"]').click());await settle(page);assert.equal(await page.eval(()=>document.querySelector('dialog').open),false);
    if (testContact) {
    await page.eval(()=>document.querySelector('.brief').requestSubmit());await settle(page);assert.equal(await page.eval(()=>document.querySelectorAll('.field-error').length),3);assert.equal(await page.eval(()=>document.activeElement.name),'name');
    await page.eval(()=>{document.querySelector('[name=name]').value='Amina';document.querySelector('[name=email]').value='invalid@';document.querySelector('[name=brief]').value='A test problem';document.querySelector('.brief').requestSubmit();});await settle(page);assert.equal(await page.eval(()=>document.querySelectorAll('.field-error').length),1);

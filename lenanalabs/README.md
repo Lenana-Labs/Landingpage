@@ -74,3 +74,26 @@ npm.cmd run test:browser
 The latest production build passed after Lucide was installed in this application directory and the parent npm files were removed. Earlier unit, browser, and Lighthouse results predate the final 404/icon additions; a successful build alone does not verify every interaction. Email tests were not repeated after the user's request to stop them.
 
 See `IMPLEMENTATION_REVIEW.md` for the change inventory, quality review, measured results and launch dependencies. Automated accessibility checks complement, but do not replace, assistive-technology and real-device testing.
+
+## About and Projects
+
+`/about` and `/projects` implement the approved designs in `../design/prototypes/` and `../design/specification.md`. Both reuse the header, footer, fonts, palette and Lucide controls. Page-specific CSS is scoped under `.about-page` and `.projects-page`; it does not change the landing page's section styles. The existing Tailwind loader is preserved.
+
+The About page includes the editorial story, four principles, an illustrative decision tree, five-step method, exploration loop and permanent team section. Pointer/tap readouts are backed by a native disclosure and a full mobile explanation list. `src/data/team.ts` must receive three approved profiles before launch: the prototypes' fictional identities are deliberately absent. There is no team toggle, demo mode or alternate empty presentation. Portraits and optional fields collapse cleanly; absent portraits use monograms.
+
+`src/data/projects.ts` remains the single project registry. `getPublicProjects()` is the server-side publication boundary. Records require `visibility: "public"`; engineering status never publishes a record. Client projects additionally require `client.approvedForPublication: true`. Ambiguous duplicate slugs and invalid slugs are rejected. Legacy `open-source`/`active` values normalize to `experiment`/`in-development`. Both the landing Lab and Projects archive use this boundary.
+
+Featured placement requires `featured: true`. Missing images produce a text composition rather than a pretend preview. The archive index derives all marks/counts from visible public records, with no capacity limit. Filters appear only when at least two categories have public entries. Approved case studies can link to verified external URLs; no detail-page design was supplied, so no `/projects/[slug]` route or placeholder links were added.
+
+Navigation now supports Home, About, Capabilities, Projects and Contact. Existing Approach and Lab anchors remain available in the footer and at `/#approach` and `/#lab`. Sitemap entries for the new routes are emitted only when `NEXT_PUBLIC_SITE_URL` is configured.
+
+Additional checks:
+
+```sh
+node --test --test-skip-pattern="contact requires|fallback safely" scripts/*.test.mjs
+npm run test:pages
+```
+
+`test:pages` uses the existing Chrome driver plus Next's installed Webpack to build an ignored, isolated test fixture. It exercises actual React archive filters without adding production fixture routes, profiles, modes or projects. Images use a small stub only in that filter harness; the Node tests exercise the actual Next image component. Screenshots distinguish production pages from test-only team/project fixtures. Outputs live in `.taste-skill/pages/`. Set `SKIP_CONTACT_TESTS=1` when running `test:browser` to skip email checks, as requested for this work.
+
+See `PAGES_IMPLEMENTATION.md` for the final file inventory, validation results, content dependencies and deviations.
