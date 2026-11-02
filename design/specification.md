@@ -3,6 +3,10 @@
 **Status:** refactor complete, awaiting approval. Production untouched.
 **Scope:** About page only. Projects is unchanged from the previous review and is documented here only for reference.
 
+**Implementation update — 2026-11-02:** Native `/about` and `/projects` routes are implemented. The owner subsequently requested three visible team placeholders; the application uses `Team member 01–03`, each explicitly labeled `Profile placeholder`. This supersedes the earlier instruction to omit all placeholder profiles, without approving fictional identities or biographies. The design-review notes below describe the prototype stage. Current implementation and content dependencies are documented in `lenanalabs/README.md` (About and Projects section).
+
+**Archive-index update:** The owner requested illustrative placeholder marks for the empty archive: client work **2**, internal products **4**, experiments **3**. They are explicitly labeled, noninteractive visual placeholders, not public project records or a capacity limit. Once public projects exist, their actual records determine the index marks and counts.
+
 ---
 
 ## 1. Reviewing these files
@@ -143,7 +147,7 @@ Rendering rules: `portrait` replaces the monogram inside the same keyline frame;
 | Long name or role | Wraps; no ellipsis; grid columns are `minmax(0,1fr)` so nothing overflows |
 | Missing links | Link row absent |
 | Fourth member | Wraps to a second row of three with the same rules; no component change |
-| Unapproved content | Ship nothing rather than a placeholder; this is a content dependency, not a UI state |
+| Unapproved content | Do not invent identities. The owner's later request permits three explicitly labeled application placeholders until approved profile details are supplied. |
 
 ### 7.5 Responsive
 
@@ -237,6 +241,6 @@ src/data/principles.ts                    beliefs (draft status flagged)
 
 ### Known limitations
 
-- Team content is placeholder; the page is not publishable until three verified profiles exist.
+- The application currently renders three owner-requested, explicitly labeled team placeholders. Approved real profiles are still needed for final content sign-off.
 - The decision plate remains illustrative — it is not a record of a real client decision and is labelled as such.
 - Option A is a review artefact; it should not be shipped alongside B.

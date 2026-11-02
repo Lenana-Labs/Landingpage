@@ -1,4 +1,4 @@
-﻿# LenanaLabs
+# LenanaLabs
 
 A Kenya-based engineering studio website built with Next.js, React, TypeScript, and Tailwind CSS. The design combines warm cream backgrounds, burnt orange accents, deep green sections, expressive typography, and an interactive synthetic contour map.
 
@@ -32,6 +32,9 @@ The latest production build passed, including TypeScript checking, the homepage,
 - An honest, data-driven Lab with an empty state until verified work is available.
 - Contact form that opens an email draft, plus direct email and copy controls.
 - A branded 404 page and Lucide icons for interface controls.
+- Dedicated `/about` and `/projects` pages with shared navigation and footer.
+- Three clearly labeled team placeholders, ready for approved profile details.
+- A project archive with explicit publication controls, featured entries and category filters.
 
 The terrain is illustrative; its coordinates and elevations are not geographical measurements. Contact opens the visitor's email application; this website does not send or store messages.
 
@@ -42,8 +45,8 @@ lenanalabs/
   src/app/          Page composition, metadata, 404, and global styles
   src/components/   Sections, forms, navigation, shared controls, and visuals
   src/config/       Centralized studio details
-  src/data/         Capabilities and verified Lab projects
-  src/lib/          Terrain math and contact validation
+  src/data/         Capabilities, team profiles, principles and project registry
+  src/lib/          Terrain math, contact validation and project filtering
   scripts/          Unit and browser checks
 ```
 
@@ -53,4 +56,6 @@ lenanalabs/
 
 - [Application setup, content editing, and checks](lenanalabs/README.md)
 - [Implementation review and verification history](lenanalabs/IMPLEMENTATION_REVIEW.md)
+- [About and Projects implementation and current content status](lenanalabs/README.md#about-and-projects)
+- [Approved design references](design/README.md)
 - [Original visual reference](final.html)

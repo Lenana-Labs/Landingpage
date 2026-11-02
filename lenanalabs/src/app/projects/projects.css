@@ -22,6 +22,7 @@
 .projects-page .ip-cells{display:flex;flex-wrap:wrap;gap:6px;min-height:20px;align-items:center}
 .projects-page .ip-mark{width:9px;height:20px;background:var(--signal);border:1px solid var(--signal);transition:transform .2s var(--ease),background .2s}
 .projects-page .ip-mark:hover{transform:translateY(-3px)}
+.projects-page .ip-placeholder{display:block;width:9px;height:20px;background:var(--signal);flex:none}
 .projects-page .ip-none{height:1px;width:100%;background:var(--line-strong)}
 .projects-page .ip-count{text-align:right;color:var(--ink-2);font-size:.75rem;font-variant-numeric:tabular-nums}
 .projects-page .ip-readout{color:var(--signal)}

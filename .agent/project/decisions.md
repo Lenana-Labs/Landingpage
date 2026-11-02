@@ -7,3 +7,8 @@
 | 3 | 2026-11-01 | Brand name kept as "Lenana Labs" (spaced, as in existing metadata/wordmark) | Existing site + owner usage; spec's "LenanaLabs" treated as compact stylistic variant, wordmark may use the compact form visually |
 | 4 | 2026-11-01 | Four owner-retained placeholder products presented as Lab entries (internal explorations), not client work | Honesty rule: no fabricated portfolio; placeholders were explicitly "retained at the owner's request" |
 | 5 | 2026-11-01 | Contact stays mailto-based to the owner-selected temporary mailbox; no invented addresses or backend form | Spec: use verified contact info; report missing configuration |
+| 6 | 2026-11-02 | Implement native About and Projects routes using the approved prototypes and shared site components | Approved designs govern appearance; existing Next.js architecture governs implementation |
+| 7 | 2026-11-02 | Render three explicitly labeled team placeholders at the owner's request | Supersedes omission of all team placeholders; no real identities, roles or biographies are invented |
+| 8 | 2026-11-02 | Keep the project registry empty until approved public work exists | Supersedes decision 4; public visibility and client approval are explicit and independent of engineering status |
+| 9 | 2026-11-02 | Publish the implementation in two commits on `main` | `67f9b04` contains design references; `d041ec2` contains implementation, tests and team placeholders |
+| 10 | 2026-11-02 | Show empty-archive placeholder marks in counts 2 client / 4 product / 3 experiment | Owner-requested visual placeholders are labeled and noninteractive; no fictional project records or published counts are introduced |

@@ -43,6 +43,12 @@ test('empty and draft-only archives render one honest empty presentation without
     assert.match(html, /The archive is taking shape/);
     assert.doesNotMatch(html, /Test-only|aria-pressed|Review states|Demonstration data|entry--featured/);
     assert.equal((html.match(/class="ip-mark"/g) || []).length, 0);
+    assert.equal((html.match(/class="ip-placeholder"/g) || []).length, 9);
+    for (const [category, count] of [['client',2],['product',4],['experiment',3]]) {
+      const row = html.match(new RegExp(`data-category="${category}"([\\s\\S]*?)<span class="ip-count`))[1];
+      assert.equal((row.match(/class="ip-placeholder"/g) || []).length, count);
+    }
+    assert.match(html, /Illustrative marks, not published projects/);
   }
 });
 
@@ -50,6 +56,7 @@ test('one entry has no meaningless filters or inferred featured placement; missi
   const html = render(Content, {entries:[fixture('one')]});
   assert.match(html, /Test-only one/); assert.doesNotMatch(html, /aria-pressed|entry--featured|Read case study|View project|Preview not available/);
   assert.equal((html.match(/class="ip-mark"/g) || []).length, 1);
+  assert.doesNotMatch(html, /ip-placeholder|Layout placeholders/);
 });
 
 test('mixed public entries support explicit featured client work, filters, outcomes and real external links', () => {

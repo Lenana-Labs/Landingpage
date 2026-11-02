@@ -72,6 +72,7 @@ try {
           assert.ok(Math.abs(composition.titleLeft-composition.metaLeft)<2,'stacked project hero shares its left edge');
         }
         assert.equal(await page.eval(()=>document.querySelectorAll('.ip-mark,.filter,.entry').length),0);
+        assert.deepEqual(await page.eval(()=>[...document.querySelectorAll('.ip-row')].map(row=>row.querySelectorAll('.ip-placeholder').length)),[2,4,3]);
         await page.eval(()=>{location.hash='demo';});await settle(page);
         assert.equal(await page.eval(()=>document.querySelectorAll('.entry').length),0);
       }

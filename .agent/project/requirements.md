@@ -1,5 +1,7 @@
 # Lenana Labs — Redesign Requirements (Single Source of Truth)
 
+> Historical brief. Current implementation details are documented in `lenanalabs/README.md`. Later owner instructions supersede the placeholder-product decisions below: the public project registry is empty until approved work exists, and the About team section now displays three explicitly labeled owner-requested profile placeholders.
+
 > Condensed from the Master Website Redesign Specification. All implementation waves must work from this file. Where it conflicts with the old `design.md` / `implementation_plan.md` at repo root, THIS file wins.
 
 ## 1. Company facts (verified, do not fabricate beyond these)

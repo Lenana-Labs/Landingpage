@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { ArrowRight, ArrowUpRight } from "lucide-react";
 import { getPublicProjects, projectCategories, type Project } from "@/data/projects";
+import { archivePlaceholderCounts } from "@/data/archive-placeholders";
 import ArchiveIndex from "./ArchiveIndex";
 import ProjectArchive from "./ProjectArchive";
 
@@ -21,7 +22,7 @@ export default function ProjectsContent({ entries }: { entries?: readonly Projec
     </div></section>
     <section className="band archive" id="archive" aria-label="Project archive"><div className="shell">
       {publicProjects.length ? <ProjectArchive entries={publicProjects} categories={projectCategories} /> : <>
-        <ArchiveIndex entries={publicProjects} categories={projectCategories} />
+        <ArchiveIndex entries={publicProjects} categories={projectCategories} placeholderCounts={archivePlaceholderCounts} />
         <div className="empty-state"><h2>The archive is taking shape.</h2><p>We are building and exploring. Work appears here when there is something meaningful to share — with its category, its status, and an honest note about what it is.</p>
           <div className="empty-actions"><Link className="btn" href="/#contact">Talk about a problem <ArrowUpRight size={18} aria-hidden="true" /></Link><Link className="link-arrow" href="/about">Read how we work <ArrowRight size={18} aria-hidden="true" /></Link></div>
         </div>
