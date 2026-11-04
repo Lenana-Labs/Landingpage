@@ -1,8 +1,10 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  // GitHub Pages serves static files only, so build to ./out with no image optimizer.
+  output: "export",
   images: {
+    unoptimized: true,
     formats: ["image/avif", "image/webp"],
     qualities: [60, 75],
     remotePatterns: [
@@ -12,8 +14,6 @@ const nextConfig: NextConfig = {
       },
     ],
   },
-  cacheComponents: true,
-  partialPrefetching: true,
   experimental: {
     // Avoid restoring stale CSS from the custom Tailwind loader between runs.
     turbopackFileSystemCacheForBuild: false,
