@@ -13,11 +13,11 @@ npm run typecheck
 npm run lint
 npm test
 npm run build
-npm run start -- --port 3100
+npm run start -- -l 3100
 npm run test:browser
 ```
 
-On Windows, use `npm.cmd` if PowerShell blocks `npm.ps1`. Browser tests use the repository's existing Taste skill Chrome DevTools driver; Chrome or Edge must be installed. Set `TEST_URL` to change the default `http://localhost:3100`.
+On Windows, use `npm.cmd` if PowerShell blocks `npm.ps1`. Browser tests use the repository's existing Taste skill Chrome DevTools driver; Chrome or Edge must be installed. Set `TEST_URL` to change the default `http://localhost:3100`. `npm run start` serves the static export in `out`. If the requested port is taken, it silently picks another, so check the port it prints and set `TEST_URL` to match.
 
 ## Component responsibilities
 
@@ -54,9 +54,9 @@ No messages are stored or transmitted to a server, so server validation, submiss
 
 ## Metadata and deployment
 
-Local development needs no domain or environment configuration. Leave `NEXT_PUBLIC_SITE_URL` unset for now. The sitemap remains empty and Next.js uses localhost for generated social-image URLs; its metadata warning is expected locally. When a production domain is available, set that variable to the verified origin before rebuilding. The title, description, Open Graph image, SVG icon, robots and conditional sitemap use App Router metadata conventions.
+Local development needs no domain or environment configuration. With `NEXT_PUBLIC_SITE_URL` unset, the sitemap remains empty and Next.js uses localhost for generated social-image URLs; its metadata warning is expected locally. The deploy workflow sets it to `https://lenanalabs.tech`. The title, description, Open Graph image, SVG icon, robots and conditional sitemap use App Router metadata conventions.
 
-The existing Turbopack/Tailwind loader is preserved, and `turbopack.root` explicitly points to this application directory. Keep npm dependencies and the lockfile here. No hosting provider configuration was added. The cached footer year is compatible with Cache Components.
+The existing Turbopack/Tailwind loader is preserved, and `turbopack.root` explicitly points to this application directory. Keep npm dependencies and the lockfile here. The site is a static export for GitHub Pages, so Cache Components, server rendering, and the image optimizer are off, and the footer year updates only when the site is rebuilt. See the [deployment steps](../README.md#deployment).
 
 ## Verification
 

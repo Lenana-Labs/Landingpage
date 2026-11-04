@@ -2,8 +2,7 @@ import Link from "next/link";
 import { ArrowUp } from "lucide-react";
 import BrandMark from "@/components/visuals/BrandMark";
 import { site } from "@/config/site";
-export default async function Footer() {
-    "use cache";
+export default function Footer() {
     return (<footer className="site-footer">
   <div className="shell">
     <div className="footer-top">
