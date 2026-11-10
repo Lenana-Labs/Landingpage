@@ -61,20 +61,20 @@ try {
         assert.equal(await page.eval(()=>document.documentElement.scrollWidth>innerWidth),false);
         await page.screenshot({path:`${output}/team-fixture-${width}.jpg`});
       } else {
-        assert.match(result.text,/The archive is taking shape/);
-        if(width<=1100) {
+        assert.match(result.text,/Nothing published yet/);
+        if(width<=1024) {
           const composition=await page.eval(()=>{
-            const title=document.querySelector('.projects-hero h1').getBoundingClientRect();
-            const meta=document.querySelector('.archive-meta').getBoundingClientRect();
+            const title=document.querySelector('.work-hero h1').getBoundingClientRect();
+            const meta=document.querySelector('.wh-status').getBoundingClientRect();
             return {titleBottom:title.bottom,metaTop:meta.top,titleLeft:title.left,metaLeft:meta.left};
           });
           assert.ok(composition.metaTop>=composition.titleBottom-1,'project metadata stacks below the headline');
           assert.ok(Math.abs(composition.titleLeft-composition.metaLeft)<2,'stacked project hero shares its left edge');
         }
-        assert.equal(await page.eval(()=>document.querySelectorAll('.ip-mark,.filter,.entry').length),0);
-        assert.deepEqual(await page.eval(()=>[...document.querySelectorAll('.ip-row')].map(row=>row.querySelectorAll('.ip-placeholder').length)),[2,4,3]);
+        assert.equal(await page.eval(()=>document.querySelectorAll('.ip-mark,.filter,.work-plate').length),0);
+        assert.equal(await page.eval(()=>document.querySelectorAll('.contents-empty').length),3);
         await page.eval(()=>{location.hash='demo';});await settle(page);
-        assert.equal(await page.eval(()=>document.querySelectorAll('.entry').length),0);
+        assert.equal(await page.eval(()=>document.querySelectorAll('.work-plate').length),0);
       }
       if(width===375) {
         await page.eval(()=>document.querySelector('.menu-btn').click());await settle(page);
@@ -95,26 +95,23 @@ try {
     const noScript=await browser.newPage({width:1440,height:900});await noScript.send('Emulation.setScriptExecutionDisabled',{value:true});await noScript.goto(origin+path);
     assert.equal(await noScript.eval(()=>document.querySelectorAll('.no-script-nav a').length),5);
     if(path==='/about'){await noScript.eval(()=>document.querySelector('details').open=true);assert.equal(await noScript.eval(()=>document.querySelectorAll('.tree-details li').length),6);}
-    else assert.match(await noScript.eval(()=>document.querySelector('main').textContent),/The archive is taking shape/);
+    else assert.match(await noScript.eval(()=>document.querySelector('main').textContent),/Nothing published yet/);
     await noScript.close();
   }
-  const archiveCode = await projectHarness();
+  const fixtureMarkup = await projectHarness();
   const archivePage = await browser.newPage({width:1440,height:900});await archivePage.goto(origin+'/projects');
-  await archivePage.eval(()=>{const root=document.createElement('div');root.id='archive-browser-fixture';root.className='shell';document.querySelector('main').replaceChildren(root);});
-  await archivePage.eval(archiveCode);await settle(archivePage);
-  assert.equal(await archivePage.eval(()=>document.querySelectorAll('.entry').length),3);
-  assert.equal(await archivePage.eval(()=>document.querySelectorAll('.ip-mark').length),3);
+  await archivePage.eval(html=>{document.querySelector('main').innerHTML=html;},fixtureMarkup);await settle(archivePage);
+  assert.equal(await archivePage.eval(()=>document.querySelectorAll('.work-plate').length),4);
+  assert.equal(await archivePage.eval(()=>document.querySelectorAll('.plate--featured').length),1);
   assert.doesNotMatch(await archivePage.eval(()=>document.querySelector('main').textContent),/private-draft/);
-  await archivePage.eval(()=>[...document.querySelectorAll('.filter')].find(button=>button.textContent.startsWith('Client work')).click());await settle(archivePage);
-  assert.equal(await archivePage.eval(()=>document.querySelectorAll('.entry').length),1);assert.equal(await archivePage.eval(()=>document.querySelectorAll('.ip-mark').length),1);
-  assert.match(await archivePage.eval(()=>document.querySelector('.entry h3').textContent),/client/);
-  await archivePage.eval(()=>[...document.querySelectorAll('.filter')].find(button=>button.textContent.startsWith('Internal products')).focus());await key(archivePage,'Enter',13);
-  assert.match(await archivePage.eval(()=>document.querySelector('.entry h3').textContent),/product/);
-  assert.equal(await archivePage.eval(()=>document.querySelector('.filter[aria-pressed="true"]').textContent.startsWith('Internal products')),true);
-  await archivePage.eval(()=>document.querySelector('.filter').click());await settle(archivePage);
-  for(const width of widths){await archivePage.setViewport({width,height:900,mobile:width<768});await settle(archivePage);assert.equal(await archivePage.eval(()=>document.documentElement.scrollWidth>innerWidth),false);await archivePage.screenshot({path:`${output}/projects-fixture-${width}.jpg`,fullPage:true});}
+  assert.equal(await archivePage.eval(()=>[...document.querySelectorAll('.contents a')].every(a=>Boolean(document.getElementById(a.hash.slice(1))))),true);
+  await archivePage.eval(()=>document.querySelector('.contents a[href="#product"]').focus());await key(archivePage,'Enter',13);
+  assert.equal(await archivePage.eval(()=>location.hash),'#product');
+  for(const width of widths){await archivePage.setViewport({width,height:900,mobile:width<768});await settle(archivePage);await archivePage.eval(()=>{document.activeElement.blur();window.scrollTo({top:0,behavior:'instant'});});assert.equal(await archivePage.eval(()=>document.documentElement.scrollWidth>innerWidth),false);assert.equal(await archivePage.eval(()=>[...document.querySelectorAll('.work-plate')].every(p=>Math.abs(p.getBoundingClientRect().width-p.parentElement.getBoundingClientRect().width)<2)),true,'plates use the full available section width');await archivePage.screenshot({path:`${output}/projects-fixture-${width}.jpg`,fullPage:true});}
   assert.deepEqual(archivePage.consoleErrors,[]);await archivePage.close();
+  for(const path of ['/','/about','/contact'])assert.equal((await fetch(origin+path)).status,200);
+  assert.equal((await fetch(origin+'/unrecognised-page')).status,404);
   assert.equal((await fetch(origin+'/projects/unapproved-slug')).status,404);
-  writeFileSync(`${output}/results.json`,JSON.stringify({passed:true,emailChecks:'not run at user request',viewports:results,checks:['all sections','anchors','draft-free production data','no demo controls','decision pointer readout','native keyboard disclosure','mobile diagram fallback','team test-only fixture layout','project fixture pointer and keyboard filtering','filtered index matches visible entries','featured fixture and category layout at six widths','mobile focus containment','Escape and focus restoration','reduced motion','JavaScript-disabled static content','unapproved project slug 404']},null,2));
+  writeFileSync(`${output}/results.json`,JSON.stringify({passed:true,emailChecks:'not run at user request',viewports:results,checks:['all sections','anchors','draft-free production data','no demo controls','decision pointer readout','native keyboard disclosure','mobile diagram fallback','team test-only fixture layout','project category keyboard anchors','category counts and anchors match public entries','featured fixture and category layout at six widths','mobile focus containment','Escape and focus restoration','reduced motion','JavaScript-disabled static content','unapproved project slug 404']},null,2));
   console.log('PASS: About and Projects at six widths, diagrams, navigation, content integrity and no-script/reduced-motion checks. No email checks executed.');
 } finally { await browser.close(); }

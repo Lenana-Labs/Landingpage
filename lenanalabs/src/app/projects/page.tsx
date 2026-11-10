@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import Header from "@/components/sections/header";
 import Footer from "@/components/sections/footer";
 import SkipLink from "@/components/ui/SkipLink";
-import ClosingCta from "@/components/layout/ClosingCta";
 import ProjectsContent from "@/components/projects/ProjectsContent";
 import { site } from "@/config/site";
 import "./projects.css";
@@ -17,6 +16,6 @@ export const metadata: Metadata = {
 
 export default function ProjectsPage() {
   return <><SkipLink /><Header activePage="/projects" /><main id="main-content" tabIndex={-1} className="projects-page">
-    <ProjectsContent /><ClosingCta title="Have a problem worth exploring?" />
+    <ProjectsContent />
   </main><Footer /></>;
 }
