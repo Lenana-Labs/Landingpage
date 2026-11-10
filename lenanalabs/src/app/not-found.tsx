@@ -26,7 +26,7 @@ export default function NotFound() {
           <p>The page you’re looking for may have moved, or the address may be incorrect. There’s a way back.</p>
           <div className="hero-actions">
             <Link className="btn" href="/">Back to the studio <ArrowUpRight size={18} aria-hidden="true" /></Link>
-            <Link className="link-arrow" href="/#contact">Get in touch <ArrowRight size={18} aria-hidden="true" /></Link>
+            <Link className="link-arrow" href="/contact">Get in touch <ArrowRight size={18} aria-hidden="true" /></Link>
           </div>
         </div>
         <figure className="plate error-plate">

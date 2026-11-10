@@ -26,7 +26,7 @@ export default function Lab({ entries }: {
         <p>We are an early-stage studio. Our public log will grow with work we can share.</p>
         </div>}
       <div className="log-foot">
-    <a className="link-arrow" href="#contact">Ask what we are exploring <ArrowRight size={18} aria-hidden="true" />
+    <a className="link-arrow" href="/contact">Ask what we are exploring <ArrowRight size={18} aria-hidden="true" />
     </a>
     </div>
     </div>
