@@ -21,6 +21,26 @@ test('publication is opt-in and independent of engineering status', () => {
   assert.equal(data.getPublicProjects([fixture('approved-client', { category: 'client', client: { approvedForPublication: true } })]).length, 1);
 });
 
+test('Lenske is an approved internal product with customer copy and a safe local destination', () => {
+  const products = data.getPublicProjects();
+  const lenske = products.find(project => project.id === 'lenske');
+  assert.ok(lenske);
+  assert.equal(lenske.category, 'product');
+  assert.equal(lenske.productPage, '/products/lenske');
+  assert.equal(lenske.status, 'in-development');
+  assert.equal(lenske.technologies, undefined);
+  assert.equal(lenske.services, undefined);
+  assert.match(lenske.description, /photography marketplace/);
+  assert.doesNotMatch(lenske.description, /Django|Next\.js|API|database|backend|frontend|Supabase/i);
+  const html = render(Content);
+  assert.match(html, /Explore Lenske/);
+  assert.match(html, /href="\/products\/lenske"/);
+  assert.equal((html.match(/id="p-lenske"/g) || []).length, 1);
+  for (const productPage of ['javascript:alert(1)', '//example.com', '/products/../private', '/contact']) {
+    assert.equal(data.getPublicProjects([fixture('unsafe-product', {category:'product',productPage})])[0].productPage, undefined);
+  }
+});
+
 test('duplicate and unsafe slugs are rejected without draft records affecting public counts', () => {
   assert.equal(data.getPublicProjects([fixture('a', { slug: 'duplicate' }), fixture('b', { slug: 'duplicate' })]).length, 0);
   for (const slug of ['../private', 'Has Spaces', 'https://bad.test', 'unsafe?x']) assert.equal(data.getPublicProjects([fixture('a', { slug })]).length, 0);

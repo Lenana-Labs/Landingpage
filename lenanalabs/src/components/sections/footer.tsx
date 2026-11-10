@@ -33,6 +33,10 @@ export default async function Footer() {
           </ul>
         </div>
         <div>
+          <h2>Products</h2>
+          <ul><li><Link href="/products/lenske">Lenske</Link></li></ul>
+        </div>
+        <div>
           <h2>Contact</h2>
           <ul>
             <li>

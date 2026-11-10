@@ -34,8 +34,9 @@ test('fallback safely encodes an email draft without claiming delivery', () => {
   assert.match(url.searchParams.get('body'), /A&B\? #details\nSecond line/);
 });
 test('Lab empty state and populated state use the same component', () => {
-  assert.equal(projects.projects.length, 0);
-  assert.match(renderToStaticMarkup(createElement(Lab)), /No public entries yet/);
+  assert.equal(projects.projects.filter(project => project.id === 'lenske').length, 1);
+  assert.match(renderToStaticMarkup(createElement(Lab)), /Lenske/);
+  assert.match(renderToStaticMarkup(createElement(Lab, {entries:[]})), /No public entries yet/);
   const fixture = {id:'fixture', title:'Test fixture', description:'For automated testing only.',category:'experiment',status:'prototype',visibility:'public',url:'https://example.com/tool'};
   const populated = renderToStaticMarkup(createElement(Lab, {entries:[fixture]}));
   assert.match(populated, /1 entry/);

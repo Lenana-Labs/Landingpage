@@ -61,7 +61,7 @@ try {
         assert.equal(await page.eval(()=>document.documentElement.scrollWidth>innerWidth),false);
         await page.screenshot({path:`${output}/team-fixture-${width}.jpg`});
       } else {
-        assert.match(result.text,/Nothing published yet/);
+        assert.match(result.text,/Lenske/);
         if(width<=1024) {
           const composition=await page.eval(()=>{
             const title=document.querySelector('.work-hero h1').getBoundingClientRect();
@@ -71,10 +71,10 @@ try {
           assert.ok(composition.metaTop>=composition.titleBottom-1,'project metadata stacks below the headline');
           assert.ok(Math.abs(composition.titleLeft-composition.metaLeft)<2,'stacked project hero shares its left edge');
         }
-        assert.equal(await page.eval(()=>document.querySelectorAll('.ip-mark,.filter,.work-plate').length),0);
-        assert.equal(await page.eval(()=>document.querySelectorAll('.contents-empty').length),3);
+        assert.equal(await page.eval(()=>document.querySelectorAll('.ip-mark,.filter').length),0);
+        assert.equal(await page.eval(()=>document.querySelectorAll('.contents-empty').length),2);
         await page.eval(()=>{location.hash='demo';});await settle(page);
-        assert.equal(await page.eval(()=>document.querySelectorAll('.work-plate').length),0);
+        assert.equal(await page.eval(()=>document.querySelectorAll('.work-plate').length),1);
       }
       if(width===375) {
         await page.eval(()=>document.querySelector('.menu-btn').click());await settle(page);
@@ -95,7 +95,7 @@ try {
     const noScript=await browser.newPage({width:1440,height:900});await noScript.send('Emulation.setScriptExecutionDisabled',{value:true});await noScript.goto(origin+path);
     assert.equal(await noScript.eval(()=>document.querySelectorAll('.no-script-nav a').length),5);
     if(path==='/about'){await noScript.eval(()=>document.querySelector('details').open=true);assert.equal(await noScript.eval(()=>document.querySelectorAll('.tree-details li').length),6);}
-    else assert.match(await noScript.eval(()=>document.querySelector('main').textContent),/Nothing published yet/);
+    else assert.match(await noScript.eval(()=>document.querySelector('main').textContent),/Lenske/);
     await noScript.close();
   }
   const fixtureMarkup = await projectHarness();

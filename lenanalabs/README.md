@@ -36,7 +36,7 @@ On Windows, use `npm.cmd` if PowerShell blocks `npm.ps1`. Browser tests use the 
 
 `src/config/site.ts` is the source for the contact email, location, time zone, business hours and social links. Reference values are provisional: confirm them before launch. No social accounts have been invented.
 
-Edit `src/data/capabilities.ts` for the three capabilities. Add only verified, publishable work to `src/data/projects.ts`; the Lab automatically switches from its compact empty state to entries. Only HTTP(S) project URLs become links, with safe new-tab attributes. Test fixtures are never included in public data.
+Edit `src/data/capabilities.ts` for the three capabilities. Add only verified, publishable work to `src/data/projects.ts`; the Lab automatically switches from its compact empty state to entries. External project URLs allow only HTTP(S), with safe new-tab attributes. Approved product records may also link to a validated local /products/ destination. Test fixtures are never included in public data.
 
 Unused legacy components, their compatibility content file, placeholder product records, boilerplate public assets, unused photographs, the old favicon, duplicate HTML prototypes and superseded root design plans were removed after an import-graph audit. The primary reference `../final.html` and project instructions are retained.
 

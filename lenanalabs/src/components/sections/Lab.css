@@ -1,0 +1,7 @@
+.log .lab-product-image{display:block;margin:-18px -16px 20px;overflow:hidden}
+.lab-product-image img{display:block;width:100%;height:auto;aspect-ratio:16/9;object-fit:cover}
+.log .project-entry{padding:18px 16px}
+.log .project-entry h3{font-family:var(--display);font-size:clamp(26px,3vw,36px);font-weight:600;letter-spacing:-.03em;line-height:1.1;margin:12px 0}
+.log .project-entry h3 a{display:flex;align-items:center;gap:12px;min-height:44px}
+.log .project-entry>p:not(.mono){font-size:17px;line-height:1.6;margin-bottom:18px;max-width:52ch;color:var(--ink)}
+.log .project-entry>.mono{font-size:13px;color:var(--ink-2)}

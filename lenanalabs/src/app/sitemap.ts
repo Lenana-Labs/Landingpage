@@ -1,5 +1,5 @@
 import type { MetadataRoute } from "next";
 import { site } from "@/config/site";
 export default function sitemap(): MetadataRoute.Sitemap {
-    return site.url ? ["/", "/about", "/projects", "/contact"].map(path => ({ url: new URL(path, site.url).href, changeFrequency: 'monthly', priority: path === '/' ? 1 : .8 })) : [];
+    return site.url ? ["/", "/about", "/projects", "/contact", "/products/lenske"].map(path => ({ url: new URL(path, site.url).href, changeFrequency: 'monthly', priority: path === '/' ? 1 : .8 })) : [];
 }
