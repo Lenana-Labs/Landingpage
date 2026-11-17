@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en" class="js">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Projects — Direction B: Field index</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=IBM+Plex+Mono:wght@400;500&family=Instrument+Sans:wght@400..600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="lab.css">
+<link rel="stylesheet" href="work.css">
+<style>
+.review-bar{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;background:#100F0B;color:#C8C4B9;padding:8px 16px;font-family:var(--mono);font-size:.6875rem;letter-spacing:.08em;text-transform:uppercase}
+.review-bar b{color:var(--mustard);font-weight:500}
+</style>
+</head>
+<body>
+<div class="review-bar"><span><b>Direction B</b> — Field index</span><span>Static preview · review only</span></div>
+
+<header class="site-header">
+  <div class="shell header-bar">
+    <a class="brand" href="projects.html" aria-label="LenanaLabs - home">
+      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M2 20h20M4 20Q12-3 20 20M8 20Q12 9 16 20" stroke="currentColor" stroke-width="1.4"/>
+        <circle cx="12" cy="5" r="1.5" fill="currentColor"/>
+      </svg>
+      <span>LenanaLabs</span>
+    </a>
+    <nav class="nav" aria-label="Primary">
+      <a href="about.html">About</a>
+      <a href="final.html#capabilities">Capabilities</a>
+      <a href="projects.html" aria-current="page">Projects</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+    <div class="header-end">
+      <span class="header-loc mono">Nairobi, Kenya</span>
+      <a class="btn btn--sm" href="contact.html">Start a conversation <span class="arrow" aria-hidden="true">↗</span></a>
+    </div>
+  </div>
+  <div class="measure" aria-hidden="true"></div>
+</header>
+
+<main>
+  <section class="work-hero">
+    <div class="shell">
+      <div class="mono-row mono" style="color:var(--ink-2)"><span>Projects / Archive</span><span>Index 005 · Nairobi, Kenya</span></div>
+      <div class="wh-grid" style="margin-top:clamp(16px,2.4vw,28px)">
+        <div class="wh-head"><h1>Work, <em>in progress</em>.</h1></div>
+        <div class="wh-status"><p>Only approved work is published.<br>Everything else stays in the studio.</p></div>
+        <p class="wh-lede">Client engineering, internal products, and experiments that have not decided what they are yet. Each entry carries its status — because building and shipping are different things.</p>
+      </div>
+
+      <nav class="contents" aria-label="Archive contents">
+        <ol>
+          <li><a href="#client"><span class="n">Client work</span><span class="c">02</span></a></li>
+          <li><a href="#product"><span class="n">Internal products</span><span class="c">01</span></a></li>
+          <li><a href="#experiment"><span class="n">Experiments</span><span class="c">02</span></a></li>
+        </ol>
+        <p class="section-note">Three categories · 3 in use · 5 entries</p>
+      </nav>
+    </div>
+  </section>
+
+  <div class="shell">
+    <div class="plates">
+      <article class="plate plate--featured" style="border-top:1px solid var(--ink)">
+        <div class="plate-meta"><span class="plate-no">01</span><span class="plate-kind">Selected</span></div>
+        <div class="plate-body">
+          <p class="plate-label" style="font-family:var(--mono);font-size:.625rem;letter-spacing:.1em;text-transform:uppercase;color:var(--signal);margin:0 0 2px">Selected work</p>
+          <span class="plate-status plate-status--published">Published</span>
+          <h3 style="font-size:clamp(1.75rem,3.2vw,2.5rem);line-height:1.02;letter-spacing:-.045em;max-width:24ch">A reconciliation engine for payments that arrive twice</h3>
+          <p>Matching duplicate and delayed settlement events across two systems that were never designed to talk to each other.</p>
+          <ul class="plate-tags"><li>TypeScript</li><li>Postgres</li><li>Queues</li></ul>
+        </div>
+        <div class="plate-visual" aria-hidden="true"><span class="mark">No preview</span></div>
+      </article>
+    </div>
+
+    <section class="work-section" id="client" aria-labelledby="h-client">
+      <div class="ws-head">
+        <div class="ws-title"><span class="n">CL</span><h2 id="h-client">Client work</h2><span class="ws-count">01</span></div>
+        <p class="ws-desc">Built for an external team, published only with their permission and only once it is real.</p>
+      </div>
+      <div class="plates">
+        <article class="plate">
+          <div class="plate-meta"><span class="plate-no">01</span><span class="plate-kind">Client</span></div>
+          <div class="plate-body">
+            <span class="plate-status plate-status--explore">Exploring</span>
+            <h3>An operations dashboard for a clinic network that runs on intermittent power</h3>
+            <p>Designed around the failure cases first: offline-first data entry, conflict resolution, printable fallback.</p>
+          </div>
+          <div class="plate-visual" aria-hidden="true"><span class="mark">No preview</span></div>
+        </article>
+      </div>
+    </section>
+
+    <section class="work-section" id="experiment" aria-labelledby="h-experiment">
+      <div class="ws-head">
+        <div class="ws-title"><span class="n">EX</span><h2 id="h-experiment">Experiments</h2><span class="ws-count">02</span></div>
+        <p class="ws-desc">Prototypes and technical investigations, kept even when the answer was ‘not this way’.</p>
+      </div>
+      <div class="plates">
+        <article class="plate plate--flip">
+          <div class="plate-meta"><span class="plate-no">01</span><span class="plate-kind">Experiment</span></div>
+          <div class="plate-body">
+            <span class="plate-status plate-status--proto">Prototype</span>
+            <h3>Can a local model triage support mail?</h3>
+            <p>A four-week test of whether a small on-device model could sort incoming mail without sending anything to a third party.</p>
+            <ul class="plate-tags"><li>Python</li><li>ONNX</li></ul>
+          </div>
+          <div class="plate-visual" aria-hidden="true"><span class="mark">No preview</span></div>
+        </article>
+      </div>
+    </section>
+
+    <p class="section-note" style="margin-top:32px">End of Direction B preview</p>
+  </div>
+</main>
+</body>
+</html>

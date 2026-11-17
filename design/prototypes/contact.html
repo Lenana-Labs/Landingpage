@@ -1,0 +1,370 @@
+<!doctype html>
+<html lang="en" class="js">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Contact — LenanaLabs</title>
+<meta name="description" content="Tell LenanaLabs what you have in mind — a problem, an idea, or a project you're working on. No elaborate brief required.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=IBM+Plex+Mono:wght@400;500&family=Instrument+Sans:wght@400..600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="lab.css">
+<style>
+/* ── Contact ────────────────────────────────────────────── */
+.contact-main{padding-block:clamp(36px,5.2vw,80px) clamp(44px,6vw,80px)}
+.c-grid{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));column-gap:clamp(18px,2.4vw,40px);row-gap:32px;align-items:start}
+.c-intro{grid-column:1/6;padding-top:2px}
+.c-form{grid-column:6/13;border-left:1px solid var(--line);padding-left:clamp(18px,3.4vw,56px)}
+.section-label{margin-bottom:clamp(18px,2.6vw,30px)}
+.c-intro h1{font-family:var(--display);font-weight:600;font-size:clamp(5rem,7.8vw,7rem);line-height:.9;letter-spacing:-.055em;margin:0;text-transform:uppercase}
+.c-intro h1 em{font-style:normal;color:var(--signal)}
+.c-intro h2{font-family:var(--display);font-weight:600;font-size:clamp(1.5rem,2.1vw,2.125rem);line-height:1.12;letter-spacing:-.03em;margin:clamp(22px,3vw,34px) 0 14px;max-width:16ch}
+.c-intro p{font-size:clamp(1.0625rem,1.25vw,1.1875rem);line-height:1.6;color:var(--ink-2);max-width:34ch}
+.c-intro p + p{margin-top:14px}
+
+/* Form */
+.inquiry{display:flex;flex-direction:column}
+.field{display:flex;flex-direction:column;gap:10px;margin-bottom:clamp(22px,2.6vw,28px)}
+.field>label{font-family:var(--mono);font-size:.8125rem;letter-spacing:.06em;text-transform:uppercase;color:var(--ink)}
+.field input,.field textarea{width:100%;background:rgba(251,248,241,.55);border:1px solid var(--line-strong);border-radius:0;padding:15px 16px;font-family:var(--sans);font-size:1.0625rem;line-height:1.5;color:var(--ink);min-height:56px;transition:border-color .18s,background .18s}
+.field textarea{min-height:168px;resize:vertical;padding-top:14px}
+.field input::placeholder,.field textarea::placeholder{color:#8C8371}
+.field input:hover,.field textarea:hover{border-color:var(--ink)}
+.field input:focus,.field textarea:focus{outline:2px solid var(--signal);outline-offset:2px;border-color:var(--ink);background:var(--chalk)}
+.field-error{display:none;font-family:var(--sans);font-size:.8125rem;line-height:1.45;color:var(--signal)}
+.field.is-invalid input,.field.is-invalid textarea{border-color:var(--signal);border-width:2px}
+.field.is-invalid>label{color:var(--signal)}
+.field.is-invalid .field-error{display:block}
+
+.form-status:empty{display:none}
+.status-banner{display:none;border:1px solid var(--signal);background:rgba(193,58,23,.06);padding:12px 14px;margin-bottom:20px;font-size:.9375rem;line-height:1.5}
+.status-banner.is-visible{display:block}
+.status-banner b{display:block;margin-bottom:3px}
+.status-banner a{text-decoration:underline;text-underline-offset:3px}
+
+.submit{width:100%;min-height:56px;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:0 20px;background:var(--signal);color:var(--chalk);border:1px solid var(--signal);border-radius:0;font-family:var(--mono);font-size:.8125rem;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;transition:background .2s var(--ease),border-color .2s}
+.submit:hover{background:#A5300F;border-color:#A5300F}
+.submit:hover .arrow{transform:translate(3px,-3px)}
+.submit .arrow{transition:transform .25s var(--ease)}
+.submit[disabled]{background:#8E6A5C;border-color:#8E6A5C;cursor:progress}
+.submit[disabled] .arrow{transform:none}
+.submit-note{margin-top:12px;font-size:.75rem;line-height:1.5;color:var(--ink-2)}
+.demo-link{background:none;border:0;padding:10px 0;min-height:44px;font:inherit;color:var(--ink);text-decoration:underline;text-underline-offset:3px;cursor:pointer}
+.demo-link:hover{color:var(--signal)}
+
+/* Success */
+.received{display:none}
+.received.is-visible{display:block}
+.received .mono{color:var(--signal);margin-bottom:14px}
+.received h2{font-family:var(--display);font-weight:600;font-size:clamp(1.75rem,2.8vw,2.375rem);line-height:1.02;letter-spacing:-.04em;margin-bottom:12px}
+.received p{font-size:1.0625rem;line-height:1.6;color:var(--ink-2);max-width:40ch}
+.received .btn{margin-top:26px}
+
+/* Direct contact */
+.direct{border-top:1px solid var(--ink);border-bottom:1px solid var(--line)}
+.direct-row{display:flex;justify-content:space-between;align-items:flex-start;gap:clamp(20px,4vw,48px);flex-wrap:wrap;padding-block:clamp(24px,3vw,36px)}
+.direct-block{display:flex;flex-direction:column;gap:8px}
+.direct-block .mono{color:var(--ink-2)}
+.mail{display:inline-flex;align-items:center;gap:12px;min-height:44px;font-family:var(--display);font-weight:600;font-size:clamp(1.25rem,1.9vw,1.625rem);letter-spacing:-.02em;border-bottom:1px solid var(--line-strong);padding-bottom:4px;word-break:break-word}
+.mail:hover{color:var(--signal);border-color:var(--signal)}
+.mail:hover .arrow{transform:translate(3px,-3px)}
+.mail .arrow{transition:transform .25s var(--ease)}
+.based{font-family:var(--display);font-weight:600;font-size:clamp(1.125rem,1.6vw,1.375rem);letter-spacing:-.02em}
+.based span{color:var(--ink-2);font-family:var(--sans);font-weight:400;font-size:.9375rem;letter-spacing:0;display:block;margin-top:4px}
+
+/* Keep the shared shell and brand tokens; changes below belong to Contact only. */
+.contact-main .shell,.direct .shell{max-width:1472px;padding-inline:clamp(22px,5.5vw,106px)}
+.contact-main .section-label{font-size:13px;padding-bottom:0}
+.c-form{scroll-margin-top:116px}
+.submit-note{font-size:13px}
+.form-status:not(:empty){margin-bottom:16px;font-size:15px}
+.mail-placeholder{font-family:var(--display);font-size:clamp(1.125rem,2vw,1.625rem);font-weight:600;overflow-wrap:anywhere}
+.contact-dependency{font-size:14px;color:var(--ink-2);max-width:42ch}
+.site-footer .contact-dependency{color:inherit}
+@media(max-width:1023px){
+  .c-intro,.c-form{grid-column:1/13}
+  .c-form{border-left:0;padding-left:0;border-top:1px solid var(--ink);padding-top:clamp(22px,3vw,32px)}
+  .c-intro p{max-width:46ch}
+}
+@media(max-width:720px){
+  .c-intro h1{font-size:clamp(3.25rem,16vw,4rem);max-width:5ch}
+  .c-intro h2{margin-top:20px}
+  .field input,.field textarea{font-size:16px}
+  .direct-row{flex-direction:column;gap:22px}
+}
+</style>
+</head>
+<body id="top">
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <div class="shell header-bar">
+    <a class="brand" href="../../final.html" aria-label="LenanaLabs - home">
+      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M2 20h20M4 20Q12-3 20 20M8 20Q12 9 16 20" stroke="currentColor" stroke-width="1.4"/>
+        <circle cx="12" cy="5" r="1.5" fill="currentColor"/>
+      </svg>
+      <span>LenanaLabs</span>
+    </a>
+    <nav class="nav" aria-label="Primary">
+      <a href="about.html">About</a>
+      <a href="../../final.html#capabilities">Capabilities</a>
+      <a href="projects.html">Projects</a>
+      <a href="contact.html" aria-current="page">Contact</a>
+    </nav>
+    <div class="header-end">
+      <span class="header-loc mono">Nairobi, Kenya</span>
+      <a class="btn btn--sm" href="#contact-form" id="header-cta">Start a conversation <span class="arrow" aria-hidden="true">↗</span></a>
+      <button class="menu-btn" id="menu-open" aria-expanded="false" aria-controls="mobile-menu">Menu</button>
+    </div>
+  </div>
+  <div class="measure" aria-hidden="true"></div>
+</header>
+
+<div class="mobile-menu" id="mobile-menu" hidden>
+  <div class="mm-top">
+    <span class="mono">LenanaLabs / Menu</span>
+    <button class="mm-close" id="menu-close">Close</button>
+  </div>
+  <nav aria-label="Mobile">
+    <a href="about.html">About <span aria-hidden="true">↗</span></a>
+    <a href="../../final.html#capabilities">Capabilities <span aria-hidden="true">↗</span></a>
+    <a href="projects.html">Projects <span aria-hidden="true">↗</span></a>
+    <a href="contact.html" aria-current="page">Contact <span aria-hidden="true">↗</span></a>
+  </nav>
+  <p class="mm-foot mono">Nairobi, Kenya · 1°17′S 36°49′E</p>
+</div>
+
+<main id="main">
+  <section class="contact-main" aria-labelledby="contact-heading">
+    <div class="shell c-grid">
+      <div class="c-intro">
+        <p class="section-label mono">04 / Contact</p>
+        <h1 id="contact-heading">Let's<br>talk<span style="color:var(--signal)">.</span></h1>
+        <h2>Have something in mind?</h2>
+        <p>Tell us about the problem, idea, or project you're working on.</p>
+        <p>No elaborate brief required.</p>
+      </div>
+
+      <div class="c-form">
+        <form class="inquiry" id="contact-form" aria-describedby="demo-note" novalidate>
+          <div class="form-status" id="form-status" role="status" aria-live="polite"></div>
+
+          <div class="status-banner" id="error-banner" tabindex="-1">
+            <b>Demonstration error.</b>
+            No message was sent. Your text is still here. Try the demonstration again.
+          </div>
+
+          <div class="field" id="f-name">
+            <label for="name">Your name</label>
+            <input id="name" name="name" type="text" required autocomplete="name" placeholder="Jane Doe" aria-describedby="err-name">
+            <p class="field-error" id="err-name">Please enter your name.</p>
+          </div>
+
+          <div class="field" id="f-email">
+            <label for="email">Email address</label>
+            <input id="email" name="email" type="email" required autocomplete="email" inputmode="email" placeholder="jane@example.com" aria-describedby="err-email">
+            <p class="field-error" id="err-email">Enter a valid email address.</p>
+          </div>
+
+          <div class="field" id="f-message">
+            <label for="message">What's on your mind?</label>
+            <textarea id="message" name="message" required rows="6" placeholder="Tell us a little about what you're thinking, building, or trying to solve." aria-describedby="err-message"></textarea>
+            <p class="field-error" id="err-message">Please enter a message.</p>
+          </div>
+
+          <button class="submit" id="submit-btn" type="submit" disabled>Send message <span class="arrow" aria-hidden="true">↗</span></button>
+          <p class="submit-note" id="demo-note">Demonstration only. No message is sent.<br><button class="demo-link" id="simulate-failure" type="button">Simulate a failed send</button></p>
+
+          <noscript>
+            <p class="submit-note">JavaScript is off, so the demonstration cannot run. An approved contact email is still needed.</p>
+          </noscript>
+        </form>
+
+        <div class="received" id="received" role="status" aria-live="polite">
+          <p class="mono">Demonstration · nothing was sent</p>
+          <h2>Demo complete.</h2>
+          <p>Thanks for trying the form. This is a preview of the confirmation state; no message was delivered.</p>
+          <a class="btn" href="../../final.html">Back to home <span class="arrow" aria-hidden="true">↗</span></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="direct" aria-label="Direct contact">
+    <div class="shell direct-row">
+      <div class="direct-block">
+        <p class="mono">Prefer email?</p>
+        <p class="mail-placeholder">[Verified email address]</p><p class="contact-dependency">Content dependency: approved email needed.</p>
+      </div>
+      <div class="direct-block">
+        <p class="mono">Based in</p>
+        <p class="based">Kenya<span>Nairobi · EAT (UTC+3)</span></p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="shell">
+    <div class="footer-top">
+      <div>
+        <a class="footer-brand" href="../../final.html">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M2 20h20M4 20Q12-3 20 20M8 20Q12 9 16 20" stroke="currentColor" stroke-width="1.4"/>
+            <circle cx="12" cy="5" r="1.5" fill="currentColor"/>
+          </svg>
+          <span>LenanaLabs</span>
+        </a>
+        <p class="mono" style="margin-top:14px;color:rgba(251,248,241,.5)">Early-stage studio · Nairobi, Kenya</p>
+      </div>
+      <div class="footer-cols">
+        <div>
+          <h2>Studio</h2>
+          <ul>
+            <li><a href="about.html">About</a></li>
+            <li><a href="../../final.html#capabilities">Capabilities</a></li>
+            <li><a href="../../final.html#approach">Approach</a></li>
+            <li><a href="../../final.html#lab">Lab</a></li>
+          </ul>
+        </div>
+        <div>
+          <h2>Contact</h2>
+          <ul>
+            <li><span class="contact-dependency">Email awaiting confirmation</span></li>
+            <li><a href="#contact-form">Start a conversation</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <p class="footer-word" aria-hidden="true">LENANALABS</p>
+    <div class="footer-bottom">
+      <span>© <span id="year">2026</span> LenanaLabs</span>
+      <span>Built with curiosity. Grounded in engineering.</span>
+      <a href="#top">Back to top <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg></a>
+    </div>
+  </div>
+</footer>
+
+<noscript><nav class="shell" aria-label="Navigation without JavaScript"><a href="about.html">About</a> ? <a href="../../final.html#capabilities">Capabilities</a> ? <a href="projects.html">Projects</a></nav></noscript>
+<script src="lab.js"></script>
+<script>
+(function () {
+  "use strict";
+
+  var form = document.getElementById("contact-form");
+  var received = document.getElementById("received");
+  var submitBtn = document.getElementById("submit-btn");
+  var status = document.getElementById("form-status");
+  var banner = document.getElementById("error-banner");
+  var simulate = document.getElementById("simulate-failure");
+  var failNext = false;
+  var submitting = false;
+  submitBtn.disabled = false;
+
+  var menu = document.getElementById("mobile-menu");
+  menu.setAttribute("role", "dialog");
+  menu.setAttribute("aria-modal", "true");
+  menu.setAttribute("aria-label", "Navigation");
+  menu.addEventListener("keydown", function (event) {
+    if (event.key !== "Tab") return;
+    var links = menu.querySelectorAll("button, a[href]");
+    var first = links[0], last = links[links.length - 1];
+    if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last.focus(); }
+    else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus(); }
+  });
+  var EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+
+  function wrap(id) { return document.getElementById("f-" + id); }
+
+  function setError(id, message) {
+    var el = wrap(id);
+    if (!el) return false;
+    var control = el.querySelector("input, textarea");
+    if (message) {
+      el.classList.add("is-invalid");
+      if (control) control.setAttribute("aria-invalid", "true");
+      var err = el.querySelector(".field-error");
+      if (err) err.textContent = message;
+      return true;
+    }
+    el.classList.remove("is-invalid");
+    if (control) control.removeAttribute("aria-invalid");
+    return false;
+  }
+
+  function validate() {
+    var invalid = [];
+    var name = document.getElementById("name").value.trim();
+    var email = document.getElementById("email").value.trim();
+    var message = document.getElementById("message").value.trim();
+
+    if (!name) { setError("name", "Please enter your name."); invalid.push("name"); } else setError("name", null);
+    if (!email) { setError("email", "Please enter your email address."); invalid.push("email"); }
+    else if (!EMAIL.test(email)) { setError("email", "Enter a valid email address."); invalid.push("email"); }
+    else setError("email", null);
+    if (!message) { setError("message", "Please enter a message."); invalid.push("message"); } else setError("message", null);
+
+    return invalid;
+  }
+
+  form.addEventListener("submit", function (event) {
+    event.preventDefault();
+    if (submitting) return;
+    banner.classList.remove("is-visible");
+
+    var invalid = validate();
+    if (invalid.length) {
+      status.textContent = "Check " + invalid.length + (invalid.length === 1 ? " field" : " fields") + " before sending.";
+      var first = wrap(invalid[0]).querySelector("input, textarea");
+      if (first) first.focus();
+      return;
+    }
+
+    status.textContent = "Running demonstration. Nothing is sent.";
+    submitting = true;
+    simulate.disabled = true;
+    submitBtn.disabled = true;
+    submitBtn.setAttribute("aria-busy", "true");
+    submitBtn.firstChild.nodeValue = "Demonstrating... ";
+
+    window.setTimeout(function () {
+      submitting = false;
+      simulate.disabled = false;
+      submitBtn.disabled = false;
+      submitBtn.removeAttribute("aria-busy");
+      submitBtn.firstChild.nodeValue = "Send message ";
+
+      if (failNext) {
+        failNext = false;
+        status.textContent = "Demonstration error. No message was sent. Your text is preserved.";
+        banner.classList.add("is-visible");
+        banner.focus();
+        return;
+      }
+
+      form.hidden = true;
+      received.classList.add("is-visible");
+      status.textContent = "Demonstration complete. No message was sent.";
+      received.setAttribute("tabindex", "-1");
+      received.focus();
+    }, 1100);
+  });
+
+  simulate.addEventListener("click", function () {
+    failNext = true;
+    status.textContent = "Failure simulation armed — send the form to see the error state.";
+  });
+
+  form.addEventListener("input", function (event) {
+    var el = event.target.closest(".field");
+    if (!el || !el.classList.contains("is-invalid")) return;
+    if (event.target.value.trim() && (event.target.id !== "email" || EMAIL.test(event.target.value.trim()))) {
+      el.classList.remove("is-invalid");
+      event.target.removeAttribute("aria-invalid");
+    }
+  });
+})();
+</script>
+</body>
+</html>

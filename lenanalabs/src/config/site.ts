@@ -1,4 +1,4 @@
-// Reference contact details are provisional; confirm before launch.
+// Contact email approved by the site owner.
 export const site = { name: "LenanaLabs", email: "ngigemwaniki2004@gmail.com", location: "Nairobi, Kenya", coordinates: "1°17′S 36°49′E", timezone: "EAT (UTC+3)", hours: "Monday to Friday, 09:00–18:00", socialLinks: [] as {
         label: string;
         url: string;
@@ -8,5 +8,5 @@ export const navigation = [
   {label:"About",href:"/about"},
   {label:"Capabilities",href:"/#capabilities"},
   {label:"Projects",href:"/projects"},
-  {label:"Contact",href:"/#contact"},
+  {label:"Contact",href:"/contact"},
 ];

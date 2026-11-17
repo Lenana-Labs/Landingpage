@@ -32,17 +32,28 @@ export default function Footer() {
           </ul>
         </div>
         <div>
+          <h2>Products</h2>
+          <ul><li><Link href="/products/lenske">Lenske</Link></li></ul>
+        </div>
+        <div>
           <h2>Contact</h2>
           <ul>
             <li>
     <a href={`mailto:${site.email}`}>Email</a>
     </li>
             <li>
-    <Link href="/#contact">Start a conversation</Link>
+    <Link href="/contact">Start a conversation</Link>
     </li>
           </ul>
         </div>
 
+        <div>
+          <h2>Legal</h2>
+          <ul>
+            <li><Link href="/privacy-policy">Privacy Policy</Link></li>
+            <li><Link href="/terms-and-conditions">Terms and Conditions</Link></li>
+          </ul>
+        </div>
       </div>
     </div>
     <p className="footer-word" aria-hidden="true">LENANALABS</p>

@@ -23,6 +23,7 @@
   const h = Number(parts[4] || 2200);
   const f = document.getElementById("f1");
   const i = f.querySelector("iframe");
+  i.onload = function () { try { i.contentWindow.scrollTo(0, 0); } catch (e) { /* cross-origin: ignore */ } };
   i.src = src + "?v=" + Date.now() + (parts[5] ? "#" + parts[5] : ""); i.width = w; i.height = h;
   i.style.transform = `scale(${s})`;
   i.style.top = (-o * s) + "px";

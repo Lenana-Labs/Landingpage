@@ -5,7 +5,6 @@ import { renderToStaticMarkup } from 'react-dom/server';
 import { source } from './test-source.mjs';
 
 const data = await source('src/data/projects.ts');
-const { filterProjects } = await source('src/lib/project-filters.ts');
 const { default: Content } = await source('src/components/projects/ProjectsContent.tsx');
 const { default: Team } = await source('src/components/about/TeamSection.tsx');
 const { default: DecisionTree } = await source('src/components/about/DecisionTree.tsx');
@@ -20,6 +19,26 @@ test('publication is opt-in and independent of engineering status', () => {
   assert.deepEqual(data.getPublicProjects(entries).map(project => project.id), ['approved']);
   assert.equal(data.getPublicProjects([fixture('private-client', { category: 'client' })]).length, 0);
   assert.equal(data.getPublicProjects([fixture('approved-client', { category: 'client', client: { approvedForPublication: true } })]).length, 1);
+});
+
+test('Lenske is an approved internal product with customer copy and a safe local destination', () => {
+  const products = data.getPublicProjects();
+  const lenske = products.find(project => project.id === 'lenske');
+  assert.ok(lenske);
+  assert.equal(lenske.category, 'product');
+  assert.equal(lenske.productPage, '/products/lenske');
+  assert.equal(lenske.status, 'in-development');
+  assert.equal(lenske.technologies, undefined);
+  assert.equal(lenske.services, undefined);
+  assert.match(lenske.description, /photography marketplace/);
+  assert.doesNotMatch(lenske.description, /Django|Next\.js|API|database|backend|frontend|Supabase/i);
+  const html = render(Content);
+  assert.match(html, /Explore Lenske/);
+  assert.match(html, /href="\/products\/lenske"/);
+  assert.equal((html.match(/id="p-lenske"/g) || []).length, 1);
+  for (const productPage of ['javascript:alert(1)', '//example.com', '/products/../private', '/contact']) {
+    assert.equal(data.getPublicProjects([fixture('unsafe-product', {category:'product',productPage})])[0].productPage, undefined);
+  }
 });
 
 test('duplicate and unsafe slugs are rejected without draft records affecting public counts', () => {
@@ -37,40 +56,49 @@ test('public projection omits unapproved metadata and unsafe URLs', () => {
   assert.equal(data.safeAssetSource('/../private.png'), undefined);
 });
 
-test('empty and draft-only archives render one honest empty presentation without filters or demo controls', () => {
-  for (const entries of [[], [fixture('draft', {visibility:'draft'})]]) {
+test('empty and draft-only archives have truthful inert contents without demo controls', () => {
+  for (const entries of [[], [fixture('draft', {visibility:'draft',featured:true,status:'published'})]]) {
     const html = render(Content, {entries});
-    assert.match(html, /The archive is taking shape/);
-    assert.doesNotMatch(html, /Test-only|aria-pressed|Review states|Demonstration data|entry--featured/);
-    assert.equal((html.match(/class="ip-mark"/g) || []).length, 0);
-    assert.equal((html.match(/class="ip-placeholder"/g) || []).length, 9);
-    for (const [category, count] of [['client',2],['product',4],['experiment',3]]) {
-      const row = html.match(new RegExp(`data-category="${category}"([\\s\\S]*?)<span class="ip-count`))[1];
-      assert.equal((row.match(/class="ip-placeholder"/g) || []).length, count);
-    }
-    assert.match(html, /Illustrative marks, not published projects/);
+    assert.match(html, /Nothing published yet/);
+    assert.match(html, /Index 000/);
+    assert.doesNotMatch(html, /Test-only|aria-pressed|Review states|Demonstration data|plate--featured|ip-placeholder/);
+    assert.equal((html.match(/class="contents-empty"/g) || []).length,3);
+    assert.equal((html.match(/class="work-section"/g) || []).length,0);
   }
 });
 
-test('one entry has no meaningless filters or inferred featured placement; missing optional fields are safe', () => {
-  const html = render(Content, {entries:[fixture('one')]});
-  assert.match(html, /Test-only one/); assert.doesNotMatch(html, /aria-pressed|entry--featured|Read case study|View project|Preview not available/);
-  assert.equal((html.match(/class="ip-mark"/g) || []).length, 1);
-  assert.doesNotMatch(html, /ip-placeholder|Layout placeholders/);
+test('one project has one section and a category anchor without inferred featuring', () => {
+  const html=render(Content,{entries:[fixture('one')]});
+  assert.match(html,/Test-only one/);assert.match(html,/href="#experiment"/);
+  assert.match(html,/Index 001/);assert.match(html,/No preview/);
+  assert.doesNotMatch(html,/plate--featured|aria-pressed|Read case study|View project/);
+  assert.equal((html.match(/class="contents-empty"/g)||[]).length,2);
 });
 
-test('mixed public entries support explicit featured client work, filters, outcomes and real external links', () => {
-  const entries = [fixture('ordinary'), fixture('featured', {category:'client',featured:true,client:{approvedForPublication:true,name:'Approved test client'},services:['Engineering'],technologies:['TypeScript'],caseStudy:{url:'https://example.com/case-study',outcomes:['Verified fixture outcome']}}), fixture('draft',{visibility:'draft'})];
-  const html = render(Content, {entries});
-  assert.ok(html.indexOf('Test-only featured',html.indexOf('id="project-entries"')) < html.indexOf('Test-only ordinary',html.indexOf('id="project-entries"')));
-  assert.match(html, /entry--featured/); assert.match(html, /Approved test client/); assert.match(html, /Verified fixture outcome/); assert.match(html, /noopener noreferrer/);
-  assert.doesNotMatch(html, /Test-only draft/);
-  assert.equal((html.match(/class="ip-mark"/g) || []).length, 2);
-  assert.equal((html.match(/aria-pressed=/g) || []).length, 3);
-  const publicEntries = data.getPublicProjects(entries);
-  assert.deepEqual(filterProjects(publicEntries, 'client').map(project => project.id), ['featured']);
-  assert.equal(filterProjects(publicEntries, 'all').length, 2);
-  assert.equal(filterProjects(publicEntries, 'product').length, 0);
+test('selected project uses first explicit public candidate once and contents targets its real anchor', () => {
+  const entries=[fixture('draft',{visibility:'draft',featured:true}),fixture('first',{category:'client',featured:true,client:{approvedForPublication:true,name:'Approved test client'},services:['Engineering'],technologies:['TypeScript'],caseStudy:{url:'https://example.com/case-study',outcomes:['Verified fixture outcome']}}),fixture('second',{featured:true}),fixture('product',{category:'product'})];
+  const html=render(Content,{entries});
+  assert.match(html,/href="#p-first"/);assert.match(html,/href="#experiment"/);assert.match(html,/href="#product"/);
+  assert.equal((html.match(/plate--featured/g)||[]).length,1);
+  assert.equal((html.match(/id="p-first"/g)||[]).length,1);
+  assert.ok(html.indexOf('id="p-first"')<html.indexOf('id="p-second"'));
+  assert.doesNotMatch(html,/Test-only draft|aria-pressed/);
+  assert.match(html,/Approved test client/);assert.match(html,/Verified fixture outcome/);assert.match(html,/noopener noreferrer/);
+});
+
+test('selected category count includes its selected record without duplicating it in the section', () => {
+  const html=render(Content,{entries:[fixture('selected',{featured:true}),fixture('other')]});
+  assert.match(html,/href="#experiment"/);assert.match(html,/1 selected above/);
+  assert.equal((html.match(/id="p-selected"/g)||[]).length,1);
+  assert.equal((html.match(/class="ws-count">02/g)||[]).length,1);
+});
+
+test('large archives keep all public entries and mirror alternating plates without synthetic records', () => {
+  const html=render(Content,{entries:Array.from({length:45},(_,i)=>fixture(`entry-${i}`,{category:['client','product','experiment'][i%3],client:{approvedForPublication:true}}))});
+  assert.equal((html.match(/<article /g)||[]).length,45);
+  assert.equal((html.match(/class="work-section"/g)||[]).length,3);
+  assert.equal((html.match(/plate--flip/g)||[]).length,21);
+  assert.match(html,/Index 045/);
 });
 
 test('legacy category/status normalize and long text remains intact without dead case-study links', () => {
@@ -102,7 +130,7 @@ test('decision tree has six explanations, native disclosure, mobile fallback and
 
 test('approved local imagery uses the existing image pipeline with alternatives and stable dimensions', () => {
   const html=render(Content,{entries:[fixture('image',{featured:true,image:{src:'/icon.svg',alt:'Test-only project illustration'}})]});
-  assert.match(html,/alt="Test-only project illustration"/);assert.match(html,/feature-visual/);
+  assert.match(html,/alt="Test-only project illustration"/);assert.match(html,/plate-visual--image/);
   const team=render(Team,{members:[{id:'portrait',name:'Portrait Fixture',role:'Testing',portrait:{src:'/icon.svg',alt:'Test-only portrait'}}]});
   assert.match(team,/alt="Test-only portrait"/);assert.match(team,/data-nimg="fill"/);
 });

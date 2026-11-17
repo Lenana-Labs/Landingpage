@@ -14,7 +14,7 @@ export default function Hero() {
           <h1 id="hero-heading">Technology built around <em>real</em> problems.</h1>
           <p className="hero-lede">LenanaLabs is a Kenya-based technology engineering studio. We explore the problem, test what is possible, and build the version that survives contact with reality.</p>
           <div className="hero-actions">
-            <a className="btn" href="#contact">Start a conversation <ArrowUpRight className="arrow" size={18} aria-hidden="true" />
+            <a className="btn" href="/contact">Start a conversation <ArrowUpRight className="arrow" size={18} aria-hidden="true" />
     </a>
             <a className="link-arrow" href="#capabilities">Explore what we do <ArrowRight size={18} aria-hidden="true" />
     </a>

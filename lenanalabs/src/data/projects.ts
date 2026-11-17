@@ -1,3 +1,5 @@
+import { lenske } from "@/data/lenske";
+
 export type ProjectCategory = "client" | "product" | "experiment";
 export type ProjectStatus = "exploring" | "prototype" | "in-development" | "published";
 export type ProjectVisibility = "draft" | "public";
@@ -16,6 +18,7 @@ export type Project = {
   year?: number;
   updatedAt?: string;
   url?: string;
+  productPage?: string;
   image?: ProjectImage;
   services?: string[];
   technologies?: string[];
@@ -34,7 +37,11 @@ export type PublicProject = Omit<Project, "category" | "status" | "visibility" |
   statusLabel: string;
 };
 
-export const projects: Project[] = [];
+export const projects: Project[] = [{
+  id: "lenske", slug: "lenske", title: lenske.name,
+  description: lenske.description, category: "product", status: "in-development",
+  visibility: "public", featured: true, productPage: lenske.href, image: lenske.image,
+}];
 
 export const projectCategories: { key: ProjectCategory; label: string; description: string }[] = [
   { key: "client", label: "Client work", description: "Technology built for an external team, published only with their permission and only once it is real." },
@@ -79,6 +86,7 @@ export function getPublicProjects(entries: readonly Project[] = projects): Publi
     statusLabel: projectStatuses[project.status === "active" ? "in-development" : project.status],
     visibility: "public", featured: project.featured === true, year: project.year, updatedAt: project.updatedAt,
     url: safeProjectUrl(project.url), image: publicImage(project.image),
+    productPage: /^\/products\/[a-z0-9]+(?:-[a-z0-9]+)*$/.test(project.productPage || "") ? project.productPage : undefined,
     services: project.services, technologies: project.technologies,
     client: project.client?.approvedForPublication ? {
       approvedForPublication: true, name: project.client.name, logo: publicImage(project.client.logo), website: safeProjectUrl(project.client.website),

@@ -1,3 +1,4 @@
+import "@/components/sections/Lab.css";
 import Reveal from "@/components/ui/Reveal";
 import SkipLink from "@/components/ui/SkipLink";
 import Header from "@/components/sections/header";

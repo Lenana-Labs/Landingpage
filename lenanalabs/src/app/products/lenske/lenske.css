@@ -1,0 +1,22 @@
+.lenske-hero{display:grid;grid-template-columns:5fr 7fr;gap:clamp(32px,5vw,72px);align-items:center;padding-block:clamp(36px,5vw,72px)}
+.lenske-back{display:inline-flex;align-items:center;min-height:44px;font-size:15px;color:var(--ink-2);margin-bottom:20px}
+.lenske-back:hover{color:var(--signal)}
+.lenske-intro h1{font-family:var(--display);font-size:clamp(64px,8.5vw,124px);line-height:.92;letter-spacing:-.05em;font-weight:600}
+.lenske-tagline{font-family:var(--display);font-size:clamp(25px,2.7vw,36px);line-height:1.1;letter-spacing:-.03em;margin-top:28px}
+.lenske-description{font-size:18px;line-height:1.65;max-width:42ch;margin-block:20px 28px}
+.lenske-status{font-size:14px;color:var(--ink-2);margin-top:16px}
+.lenske-hero-image{display:block;width:100%;height:auto;aspect-ratio:1/1;object-fit:cover}
+.lenske-purpose{display:grid;grid-template-columns:5fr 7fr;gap:clamp(32px,5vw,72px);padding-block:clamp(40px,6vw,88px)}
+.lenske-page h2{font-family:var(--display);font-size:clamp(28px,3.6vw,48px);font-weight:600;line-height:1.05;letter-spacing:-.035em}
+.lenske-purpose p{font-size:clamp(20px,2vw,26px);line-height:1.5;max-width:46ch}
+.lenske-features{display:grid;grid-template-columns:5fr 7fr;gap:clamp(32px,5vw,72px);padding-block:clamp(32px,5vw,72px) clamp(56px,8vw,112px)}
+.lenske-features>div>p{font-size:17px;line-height:1.6;margin-top:24px;max-width:32ch}
+.lenske-feature-list{display:flex;flex-direction:column;gap:32px}
+.lenske-feature-list h3{font-family:var(--display);font-size:25px;font-weight:600;line-height:1.2;letter-spacing:-.02em;margin-bottom:12px}
+.lenske-feature-list p{font-size:18px;line-height:1.65;max-width:52ch}
+.lenske-close{background:var(--pine);color:var(--chalk);padding-block:clamp(40px,5vw,72px)}
+.lenske-close>.shell{display:flex;align-items:center;justify-content:space-between;gap:32px}
+.lenske-close p{font-size:18px;line-height:1.6;max-width:48ch;margin-top:20px}
+.lenske-close .btn{flex-shrink:0}
+@media(max-width:900px){.lenske-hero{grid-template-columns:1fr}.lenske-intro{max-width:62ch}.lenske-description{max-width:54ch}.lenske-hero-image{aspect-ratio:16/10}.lenske-purpose,.lenske-features{grid-template-columns:1fr}.lenske-close>.shell{align-items:start;flex-direction:column}}
+@media(max-width:540px){.lenske-description,.lenske-feature-list p,.lenske-close p{font-size:16px}.lenske-tagline{margin-top:22px}.lenske-back{margin-bottom:12px}.lenske-close .btn{width:100%;justify-content:space-between}.lenske-purpose p{font-size:21px}}

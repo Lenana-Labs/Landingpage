@@ -36,7 +36,7 @@ On Windows, use `npm.cmd` if PowerShell blocks `npm.ps1`. Browser tests use the 
 
 `src/config/site.ts` is the source for the contact email, location, time zone, business hours and social links. Reference values are provisional: confirm them before launch. No social accounts have been invented.
 
-Edit `src/data/capabilities.ts` for the three capabilities. Add only verified, publishable work to `src/data/projects.ts`; the Lab automatically switches from its compact empty state to entries. Only HTTP(S) project URLs become links, with safe new-tab attributes. Test fixtures are never included in public data.
+Edit `src/data/capabilities.ts` for the three capabilities. Add only verified, publishable work to `src/data/projects.ts`; the Lab automatically switches from its compact empty state to entries. External project URLs allow only HTTP(S), with safe new-tab attributes. Approved product records may also link to a validated local /products/ destination. Test fixtures are never included in public data.
 
 Unused legacy components, their compatibility content file, placeholder product records, boilerplate public assets, unused photographs, the old favicon, duplicate HTML prototypes and superseded root design plans were removed after an import-graph audit. The primary reference `../final.html` and project instructions are retained.
 
@@ -85,7 +85,7 @@ Replace each placeholder's `name`, `role` and `bio` with approved profile detail
 
 `src/data/projects.ts` remains the single project registry. `getPublicProjects()` is the server-side publication boundary. Records require `visibility: "public"`; engineering status never publishes a record. Client projects additionally require `client.approvedForPublication: true`. Ambiguous duplicate slugs and invalid slugs are rejected. Legacy `open-source`/`active` values normalize to `experiment`/`in-development`. Both the landing Lab and Projects archive use this boundary.
 
-Featured placement requires `featured: true`. Missing images produce a text composition rather than a pretend preview. When public projects exist, the archive index derives its marks/counts from visible public records, with no capacity limit. For the empty archive, the owner requested illustrative placeholder marks: **2 client work, 4 internal products, and 3 experiments**. These counts live in `src/data/archive-placeholders.ts`; the figure explicitly labels them as placeholders, and they do not create project records or alter public project totals. Real entries automatically replace the placeholder presentation. Filters appear only when at least two categories have public entries. Approved case studies can link to verified external URLs; no detail-page design was supplied, so no `/projects/[slug]` route or placeholder links were added.
+The Projects page follows the latest Field index design in `../design/prototypes/projects.html` and `../design/projects-specification.md`. Category contents are native anchors with truthful public counts; empty categories are noninteractive text. The first public record explicitly flagged `featured: true` appears once in Selected work. Further featured candidates remain in their categories. Editorial plates alternate their composition and use approved images or an aria-hidden No preview frame. There are no filters, illustrative project-count marks, demo modes or repeated closing CTA. The entire Projects presentation is server-rendered. Approved case studies can link to validated external URLs; no detail-page design was supplied, so no `/projects/[slug]` route was added. See `PROJECTS_IMPLEMENTATION.md` for the implementation and validation record.
 
 Navigation now supports Home, About, Capabilities, Projects and Contact. Existing Approach and Lab anchors remain available in the footer and at `/#approach` and `/#lab`. Sitemap entries for the new routes are emitted only when `NEXT_PUBLIC_SITE_URL` is configured.
 
@@ -99,3 +99,15 @@ npm run test:pages
 `test:pages` uses the existing Chrome driver plus Next's installed Webpack to build an ignored, isolated test fixture. It exercises actual React archive filters without adding production fixture routes, profiles, modes or projects. Images use a small stub only in that filter harness; the Node tests exercise the actual Next image component. Screenshots distinguish production pages from test-only team/project fixtures. Outputs live in `.taste-skill/pages/`. Set `SKIP_CONTACT_TESTS=1` when running `test:browser` to skip email checks, as requested for this work.
 
 Approved real team details remain outstanding. The public project registry is intentionally empty; its illustrative archive marks are not published work.
+
+## Contact page
+
+`/contact` implements the approved Contact prototype with shared navigation/footer, the existing design tokens, and three fields: Name, Email and Message. All contact CTAs now point to this route; the legacy home-page contact section remains available at `/#contact`.
+
+The owner approved `ngigemwaniki2004@gmail.com`. The direct address is a mailto link. The form validates locally and opens an encoded email draft for the visitor to review and send; it has no backend, demonstration controls or fabricated delivery confirmation. A plain-text mailto POST provides the no-JavaScript fallback without putting inquiry data into the page URL.
+
+Validation: `npm run lint`, `npm run typecheck`, `npm test` (15 tests), and `npm run build` passed. `node scripts/contact-browser.mjs` checks six widths (320/375/768/1024/1440/1920), errors and focus associations, retained text, menu dismissal, reduced motion and no-script fallback. Set TEST_URL to use a different local server (default localhost:3101). No email is sent by browser tests. Screenshots and results live in `.taste-skill/contact/`.
+
+The production browser inspector passed with zero failures and four warnings using the explicit brief allowances for the palette, monospace, labels, rules, no imagery and minimal motion. The remaining warnings preserve the specified three font families, shared type scale, image-free treatment and requested headline. Screenshots were reviewed at desktop, tablet and mobile. Subjective brief-specific review: design 8/10, usability 9/10, creativity 7/10, content 9/10. No new direction draw was needed for this integration of an approved prototype. The live interaction is the email draft; no media or sample contact content is used.
+
+The build retains the existing metadataBase warning until NEXT_PUBLIC_SITE_URL is configured for deployment. Opening a desktop email application and delivering an actual email were deliberately not tested.

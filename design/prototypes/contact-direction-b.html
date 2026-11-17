@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="en" class="js">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Contact — Direction B: Engineering conversation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=IBM+Plex+Mono:wght@400;500&family=Instrument+Sans:wght@400..600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="lab.css">
+<style>
+.review-bar{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;background:#100F0B;color:#C8C4B9;padding:8px 16px;font-family:var(--mono);font-size:.6875rem;letter-spacing:.08em;text-transform:uppercase}
+.review-bar b{color:var(--mustard);font-weight:500}
+.band{padding:clamp(48px,6vw,88px) 0}
+.hero-grid{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));column-gap:clamp(14px,2vw,30px);row-gap:28px;align-items:center;margin-top:24px}
+.hero-copy{grid-column:1/8}
+h1{font-family:var(--display);font-weight:600;font-size:clamp(2.5rem,5.6vw,5rem);line-height:.95;letter-spacing:-.05em;margin:0 0 20px}
+h1 em{font-style:normal;color:var(--signal)}
+.lede{font-size:1.125rem;line-height:1.55;color:var(--ink-2);max-width:44ch;margin:0 0 12px}
+.note{border-left:2px solid var(--signal);padding:2px 0 2px 14px;font-size:.875rem;line-height:1.5;color:var(--ink-2);max-width:38ch}
+.path{grid-column:9/13;position:relative}
+.path svg{display:block;width:100%;height:auto}
+.path figcaption{margin-top:10px;font-family:var(--mono);font-size:.625rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-2);display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
+
+/* Form with its own rail */
+.inquiry-grid{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));column-gap:clamp(18px,2.6vw,44px);row-gap:30px;align-items:start}
+.rail{grid-column:1/4;position:sticky;top:118px;border-top:1px solid var(--ink);padding-top:16px}
+.rail h2{font-family:var(--display);font-weight:600;font-size:1.5rem;letter-spacing:-.03em;margin:8px 0 18px}
+.rail ol{list-style:none;margin:0;padding:0;position:relative;display:flex;flex-direction:column;gap:26px}
+.rail ol::before{content:"";position:absolute;left:5px;top:6px;bottom:6px;width:1px;background:var(--line-strong)}
+.rail li{position:relative;padding-left:26px;font-family:var(--mono);font-size:.6875rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-2)}
+.rail li::before{content:"";position:absolute;left:0;top:2px;width:11px;height:11px;border:1px solid var(--signal);background:var(--paper);border-radius:50%}
+.rail li b{display:block;font-family:var(--sans);font-size:.9375rem;letter-spacing:0;text-transform:none;color:var(--ink);font-weight:600;margin-top:4px}
+.rail-note{margin-top:22px;font-size:.8125rem;line-height:1.5;color:var(--ink-2);border-top:1px solid var(--line);padding-top:12px}
+.inq-main{grid-column:5/13}
+.inquiry{border-top:1px solid var(--ink)}
+.q-group{position:relative;border:0;margin:0;padding:20px 0 26px;border-bottom:1px solid var(--line)}
+.q-group::after{content:"";position:absolute;left:-14px;top:30px;width:12px;height:1px;background:var(--line-strong)}
+.q-legend{display:flex;align-items:baseline;gap:12px;margin-bottom:16px;padding:0}
+.q-no{font-family:var(--mono);font-size:.6875rem;color:var(--signal)}
+.q-title{font-family:var(--display);font-weight:600;font-size:1.125rem;letter-spacing:-.02em}
+.q-opt{font-family:var(--mono);font-size:.625rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-2);margin-left:auto}
+.field-row{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.field{display:flex;flex-direction:column;gap:7px;margin-bottom:14px}
+.field>label,.field-label{font-family:var(--mono);font-size:.6875rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-2)}
+.field input,.field textarea{width:100%;background:transparent;border:0;border-bottom:1px solid var(--line-strong);border-radius:0;padding:10px 2px;font-family:var(--sans);font-size:1.0625rem;color:var(--ink);min-height:48px}
+.field textarea{min-height:120px;resize:vertical}
+.field input::placeholder,.field textarea::placeholder{color:#8C8371}
+.field input:focus,.field textarea:focus{outline:2px solid var(--signal);outline-offset:3px}
+.field-hint{font-size:.8125rem;color:var(--ink-2);margin:0}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{position:relative;display:inline-flex}
+.chip input{position:absolute;opacity:0;width:1px;height:1px}
+.chip span{display:inline-flex;align-items:center;min-height:44px;padding:0 14px;border:1px solid var(--line-strong);font-size:.875rem;cursor:pointer}
+.chip input:checked+span{background:var(--ink);color:var(--chalk);border-color:var(--ink)}
+.chip input:focus-visible+span{outline:2px solid var(--signal);outline-offset:3px}
+.form-actions{display:flex;align-items:center;gap:18px;flex-wrap:wrap;padding-top:24px}
+.form-note{font-size:.8125rem;line-height:1.45;color:var(--ink-2);max-width:36ch;margin:0}
+.end-rule{margin-top:40px;border-top:1px solid var(--line);padding-top:14px;color:var(--ink-2);font-family:var(--mono);font-size:.6875rem;letter-spacing:.08em;text-transform:uppercase}
+@media(max-width:1100px){
+  .hero-copy,.path,.rail,.inq-main{grid-column:1/13}
+  .rail{position:static;border-top:1px solid var(--ink)}
+  .rail ol{flex-direction:row;gap:14px;overflow-x:auto;padding-bottom:6px}
+  .rail ol::before{left:6px;right:6px;top:5px;bottom:auto;width:auto;height:1px}
+  .rail li{padding:22px 14px 0 0;min-width:150px}
+  .q-group::after{display:none}
+}
+@media(max-width:720px){
+  h1{font-size:clamp(2.3rem,10vw,3.1rem)}
+  .field-row{grid-template-columns:1fr}
+  .q-legend{flex-wrap:wrap}
+  .rail ol{flex-direction:column;gap:18px}
+  .rail ol::before{left:5px;top:6px;bottom:6px;width:1px;height:auto;right:auto}
+  .rail li{padding:0 0 0 26px;min-width:0}
+}
+</style>
+</head>
+<body>
+<div class="review-bar"><span><b>Direction B</b> — Engineering conversation</span><span>Static composition preview · review only</span></div>
+
+<header class="site-header">
+  <div class="shell header-bar">
+    <a class="brand" href="contact.html" aria-label="LenanaLabs - home">
+      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M2 20h20M4 20Q12-3 20 20M8 20Q12 9 16 20" stroke="currentColor" stroke-width="1.4"/>
+        <circle cx="12" cy="5" r="1.5" fill="currentColor"/>
+      </svg>
+      <span>LenanaLabs</span>
+    </a>
+    <nav class="nav" aria-label="Primary">
+      <a href="about.html">About</a>
+      <a href="final.html#capabilities">Capabilities</a>
+      <a href="projects.html">Projects</a>
+      <a href="contact.html" aria-current="page">Contact</a>
+    </nav>
+    <div class="header-end">
+      <span class="header-loc mono">Nairobi, Kenya</span>
+      <a class="btn btn--sm" href="#inquiry">Start a conversation <span class="arrow" aria-hidden="true">↗</span></a>
+    </div>
+  </div>
+  <div class="measure" aria-hidden="true"></div>
+</header>
+
+<main>
+  <section class="band" style="padding-bottom:0">
+    <div class="shell">
+      <div class="mono-row mono" style="color:var(--ink-2)"><span>Contact / 01</span><span>LenanaLabs · Nairobi, Kenya</span></div>
+      <div class="hero-grid">
+        <div class="hero-copy">
+          <h1>Tell us what you're <em>trying to solve</em>.</h1>
+          <p class="lede">A problem, an idea, a system that needs work, or a collaboration you have in mind. None of it has to arrive as a brief.</p>
+          <p class="note">If you already know which technology you need, say so. If you do not, that is what the first conversation is for.</p>
+        </div>
+
+        <figure class="path">
+          <svg viewBox="0 0 240 300" role="img" aria-label="A signal path with four stops: the problem, a conversation, exploration, then next steps.">
+            <defs>
+              <marker id="dot" viewBox="0 0 8 8" refX="4" refY="4" markerWidth="6" markerHeight="6">
+                <circle cx="4" cy="4" r="2.4" fill="#C13A17"/>
+              </marker>
+            </defs>
+            <path d="M40 24V276" stroke="rgba(23,21,15,.28)" stroke-width="1" stroke-dasharray="3 5"/>
+            <g>
+              <circle cx="40" cy="24" r="7" fill="none" stroke="#C13A17" stroke-width="1.4"/>
+              <circle cx="40" cy="24" r="2.5" fill="#C13A17"/>
+              <text x="62" y="20" font-family="IBM Plex Mono" font-size="9" fill="#17150F" letter-spacing="1">THE PROBLEM</text>
+              <text x="62" y="34" font-family="IBM Plex Mono" font-size="8.5" fill="#4E4839">as it arrives</text>
+
+              <circle cx="40" cy="108" r="5" fill="none" stroke="#17150F" stroke-width="1"/>
+              <text x="62" y="112" font-family="IBM Plex Mono" font-size="9" fill="#17150F" letter-spacing="1">CONVERSATION</text>
+
+              <circle cx="40" cy="192" r="5" fill="none" stroke="#17150F" stroke-width="1"/>
+              <text x="62" y="196" font-family="IBM Plex Mono" font-size="9" fill="#17150F" letter-spacing="1">EXPLORATION</text>
+
+              <circle cx="40" cy="276" r="7" fill="none" stroke="#C13A17" stroke-width="1.4"/>
+              <rect x="35" y="271" width="10" height="10" fill="#C13A17"/>
+              <text x="62" y="280" font-family="IBM Plex Mono" font-size="9" fill="#17150F" letter-spacing="1">NEXT STEPS</text>
+            </g>
+          </svg>
+          <figcaption><span>Fig. 01 — Signal path</span><span>Four stops, no queue</span></figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="band" id="inquiry">
+    <div class="shell inquiry-grid">
+      <aside class="rail">
+        <p class="section-label mono">02 / Inquiry</p>
+        <h2>Start with the problem.</h2>
+        <ol>
+          <li>01 <b>Who you are</b></li>
+          <li>02 <b>What it is about</b></li>
+          <li>03 <b>The situation</b></li>
+          <li>04 <b>Context</b></li>
+        </ol>
+        <p class="rail-note">Nothing here requires a specification. The detail comes later, in conversation.</p>
+      </aside>
+
+      <div class="inq-main">
+        <form class="inquiry" novalidate>
+          <fieldset class="q-group">
+            <legend class="q-legend"><span class="q-no">01</span><span class="q-title">Who you are</span></legend>
+            <div class="field-row">
+              <div class="field"><label for="b-name">Your name</label><input id="b-name" type="text" placeholder="Amina W."></div>
+              <div class="field"><label for="b-email">Email address</label><input id="b-email" type="email" placeholder="you@company.com"></div>
+            </div>
+          </fieldset>
+
+          <fieldset class="q-group">
+            <legend class="q-legend"><span class="q-no">02</span><span class="q-title">What would you like to discuss?</span></legend>
+            <div class="chips">
+              <label class="chip"><input type="radio" name="b-type" checked><span>A new project</span></label>
+              <label class="chip"><input type="radio" name="b-type"><span>An existing system</span></label>
+              <label class="chip"><input type="radio" name="b-type"><span>An idea or experiment</span></label>
+              <label class="chip"><input type="radio" name="b-type"><span>Collaboration</span></label>
+            </div>
+          </fieldset>
+
+          <fieldset class="q-group">
+            <legend class="q-legend"><span class="q-no">03</span><span class="q-title">Tell us a little about it</span></legend>
+            <div class="field">
+              <label for="b-message" class="sr-only">Tell us a little about it</label>
+              <textarea id="b-message" rows="4" placeholder="What is happening now, and what would you like to be different?"></textarea>
+              <p class="field-hint">A few sentences is plenty.</p>
+            </div>
+          </fieldset>
+
+          <fieldset class="q-group">
+            <legend class="q-legend"><span class="q-no">04</span><span class="q-title">Context</span><span class="q-opt">Optional</span></legend>
+            <div class="field">
+              <span class="field-label">When are you thinking of starting?</span>
+              <div class="chips">
+                <label class="chip"><input type="radio" name="b-time"><span>As soon as possible</span></label>
+                <label class="chip"><input type="radio" name="b-time"><span>Next few months</span></label>
+                <label class="chip"><input type="radio" name="b-time"><span>Still exploring</span></label>
+              </div>
+            </div>
+          </fieldset>
+
+          <div class="form-actions">
+            <button class="btn" type="button">Send the inquiry <span class="arrow" aria-hidden="true">↗</span></button>
+            <p class="form-note">Static preview — the working form is in <code>contact.html</code>.</p>
+          </div>
+        </form>
+        <p class="end-rule">End of Direction B preview</p>
+      </div>
+    </div>
+  </section>
+</main>
+</body>
+</html>

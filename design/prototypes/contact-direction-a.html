@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="en" class="js">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Contact — Direction A: Editorial inquiry</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=IBM+Plex+Mono:wght@400;500&family=Instrument+Sans:wght@400..600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="lab.css">
+<style>
+.review-bar{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;background:#100F0B;color:#C8C4B9;padding:8px 16px;font-family:var(--mono);font-size:.6875rem;letter-spacing:.08em;text-transform:uppercase}
+.review-bar b{color:var(--mustard);font-weight:500}
+.band{padding:clamp(48px,6vw,88px) 0}
+.ch-grid{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));column-gap:clamp(14px,1.8vw,26px);row-gap:24px;align-items:end;margin-top:22px}
+h1{grid-column:1/9;font-family:var(--display);font-weight:600;font-size:clamp(2.5rem,5.9vw,5rem);line-height:.95;letter-spacing:-.05em;margin:0}
+h1 em{font-style:normal;color:var(--signal)}
+.ch-meta{grid-column:10/13}
+.ch-meta dl{border-top:1px solid var(--ink);margin:0}
+.ch-meta dl>div{display:flex;justify-content:space-between;gap:12px;padding:9px 0;border-bottom:1px solid var(--line)}
+.ch-meta dt{font-family:var(--mono);font-size:.6875rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-2)}
+.ch-meta dd{margin:0;font-family:var(--mono);font-size:.75rem}
+.lede{grid-column:1/7;font-size:1.125rem;line-height:1.55;color:var(--ink-2);max-width:44ch;margin-top:22px}
+.note{grid-column:8/13;margin-top:22px;border-left:2px solid var(--signal);padding:2px 0 2px 14px;font-size:.875rem;line-height:1.5;color:var(--ink-2);max-width:36ch}
+.inquiry-grid{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));column-gap:clamp(18px,2.6vw,44px);row-gap:34px;align-items:start}
+.inq-aside{grid-column:1/5;display:flex;flex-direction:column;gap:24px}
+.inq-main{grid-column:6/13}
+.inq-aside .h2{margin-top:10px}
+.aside-block{border-top:1px solid var(--ink);padding-top:12px}
+.aside-block h3{font-family:var(--mono);font-size:.6875rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-2);font-weight:400;margin:0 0 12px}
+.next-steps{display:flex;flex-direction:column;gap:14px;list-style:none;margin:0;padding:0}
+.next-steps li{display:grid;grid-template-columns:28px 1fr;gap:10px;align-items:baseline}
+.next-steps .n{font-family:var(--mono);font-size:.6875rem;color:var(--signal)}
+.next-steps p{font-size:.875rem;line-height:1.5;color:var(--ink-2);margin:0}
+.next-steps b{display:block;color:var(--ink);font-size:.9375rem;margin-bottom:2px}
+.mail-link{display:inline-flex;align-items:center;min-height:44px;font-family:var(--mono);font-size:.75rem;border-bottom:1px solid var(--line-strong);padding-bottom:2px;word-break:break-all}
+.mail-link:hover{color:var(--signal);border-color:var(--signal)}
+.inquiry{border-top:1px solid var(--ink)}
+.q-group{border:0;margin:0;padding:20px 0 26px;border-bottom:1px solid var(--line)}
+.q-legend{display:flex;align-items:baseline;gap:12px;margin-bottom:16px;padding:0}
+.q-no{font-family:var(--mono);font-size:.6875rem;color:var(--signal)}
+.q-title{font-family:var(--display);font-weight:600;font-size:1.125rem;letter-spacing:-.02em}
+.q-opt{font-family:var(--mono);font-size:.625rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-2);margin-left:auto}
+.field-row{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.field{display:flex;flex-direction:column;gap:7px;margin-bottom:14px}
+.field>label,.field-label{font-family:var(--mono);font-size:.6875rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-2)}
+.field input,.field textarea{width:100%;background:transparent;border:0;border-bottom:1px solid var(--line-strong);border-radius:0;padding:10px 2px;font-family:var(--sans);font-size:1.0625rem;color:var(--ink);min-height:48px}
+.field textarea{min-height:120px;resize:vertical}
+.field input::placeholder,.field textarea::placeholder{color:#8C8371}
+.field input:focus,.field textarea:focus{outline:2px solid var(--signal);outline-offset:3px}
+.field-hint{font-size:.8125rem;color:var(--ink-2);margin:0}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{position:relative;display:inline-flex}
+.chip input{position:absolute;opacity:0;width:1px;height:1px}
+.chip span{display:inline-flex;align-items:center;min-height:44px;padding:0 14px;border:1px solid var(--line-strong);font-size:.875rem;cursor:pointer}
+.chip input:checked+span{background:var(--ink);color:var(--chalk);border-color:var(--ink)}
+.chip input:focus-visible+span{outline:2px solid var(--signal);outline-offset:3px}
+.form-actions{display:flex;align-items:center;gap:18px;flex-wrap:wrap;padding-top:24px}
+.form-note{font-size:.8125rem;line-height:1.45;color:var(--ink-2);max-width:36ch;margin:0}
+.end-rule{margin-top:40px;border-top:1px solid var(--line);padding-top:14px;color:var(--ink-2);font-family:var(--mono);font-size:.6875rem;letter-spacing:.08em;text-transform:uppercase}
+@media(max-width:1100px){
+  h1,.ch-meta,.lede,.note,.inq-aside,.inq-main{grid-column:1/13}
+  .inq-aside{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+}
+@media(max-width:720px){
+  h1{font-size:clamp(2.3rem,10vw,3.1rem)}
+  .field-row{grid-template-columns:1fr}
+  .inq-aside{grid-template-columns:1fr}
+  .q-legend{flex-wrap:wrap}
+}
+</style>
+</head>
+<body>
+<div class="review-bar"><span><b>Direction A</b> — Editorial inquiry</span><span>Static composition preview · review only</span></div>
+
+<header class="site-header">
+  <div class="shell header-bar">
+    <a class="brand" href="contact.html" aria-label="LenanaLabs - home">
+      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M2 20h20M4 20Q12-3 20 20M8 20Q12 9 16 20" stroke="currentColor" stroke-width="1.4"/>
+        <circle cx="12" cy="5" r="1.5" fill="currentColor"/>
+      </svg>
+      <span>LenanaLabs</span>
+    </a>
+    <nav class="nav" aria-label="Primary">
+      <a href="about.html">About</a>
+      <a href="final.html#capabilities">Capabilities</a>
+      <a href="projects.html">Projects</a>
+      <a href="contact.html" aria-current="page">Contact</a>
+    </nav>
+    <div class="header-end">
+      <span class="header-loc mono">Nairobi, Kenya</span>
+      <a class="btn btn--sm" href="#inquiry">Start a conversation <span class="arrow" aria-hidden="true">↗</span></a>
+    </div>
+  </div>
+  <div class="measure" aria-hidden="true"></div>
+</header>
+
+<main>
+  <section class="band" style="padding-bottom:0">
+    <div class="shell">
+      <div class="mono-row mono" style="color:var(--ink-2)"><span>Contact / 01</span><span>LenanaLabs · Nairobi, Kenya</span></div>
+      <div class="ch-grid">
+        <h1>Tell us what you're <em>trying to solve</em>.</h1>
+        <div class="ch-meta">
+          <dl>
+            <div><dt>Studio</dt><dd>Nairobi, Kenya</dd></div>
+            <div><dt>Time</dt><dd>EAT / UTC+3</dd></div>
+            <div><dt>Reply by</dt><dd>Email</dd></div>
+          </dl>
+        </div>
+        <p class="lede">A problem, an idea, a system that needs work, or a collaboration you have in mind. None of it has to arrive as a brief — a description of what is happening is enough.</p>
+        <p class="note">If you already know which technology you need, say so. If you do not, that is what the first conversation is for.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="band" id="inquiry">
+    <div class="shell inquiry-grid">
+      <aside class="inq-aside">
+        <div>
+          <p class="section-label mono">02 / Inquiry</p>
+          <h2 class="h2">Start with the problem.</h2>
+        </div>
+        <div class="aside-block">
+          <h3>What happens next</h3>
+          <ol class="next-steps">
+            <li><span class="n">01</span><p><b>Tell us about it</b>Share the problem in whatever state it is in.</p></li>
+            <li><span class="n">02</span><p><b>We read it properly</b>The studio considers whether the work fits what we can do well.</p></li>
+            <li><span class="n">03</span><p><b>We start a conversation</b>If it fits, we discuss requirements and next steps.</p></li>
+          </ol>
+        </div>
+        <div class="aside-block">
+          <h3>Prefer email?</h3>
+          <a class="mail-link" href="mailto:ngigemwaniki2004@gmail.com">ngigemwaniki2004@gmail.com</a>
+        </div>
+      </aside>
+
+      <div class="inq-main">
+        <form class="inquiry" novalidate>
+          <fieldset class="q-group">
+            <legend class="q-legend"><span class="q-no">01</span><span class="q-title">Who you are</span></legend>
+            <div class="field-row">
+              <div class="field"><label for="a-name">Your name</label><input id="a-name" type="text" placeholder="Amina W."></div>
+              <div class="field"><label for="a-email">Email address</label><input id="a-email" type="email" placeholder="you@company.com"></div>
+            </div>
+          </fieldset>
+
+          <fieldset class="q-group">
+            <legend class="q-legend"><span class="q-no">02</span><span class="q-title">What would you like to discuss?</span></legend>
+            <div class="chips">
+              <label class="chip"><input type="radio" name="a-type" checked><span>A new project</span></label>
+              <label class="chip"><input type="radio" name="a-type"><span>An existing system</span></label>
+              <label class="chip"><input type="radio" name="a-type"><span>An idea or experiment</span></label>
+              <label class="chip"><input type="radio" name="a-type"><span>Collaboration</span></label>
+              <label class="chip"><input type="radio" name="a-type"><span>Something else</span></label>
+            </div>
+          </fieldset>
+
+          <fieldset class="q-group">
+            <legend class="q-legend"><span class="q-no">03</span><span class="q-title">Tell us a little about it</span></legend>
+            <div class="field">
+              <label for="a-message" class="sr-only">Tell us a little about it</label>
+              <textarea id="a-message" rows="4" placeholder="What is happening now, what you have already tried, and what you would like to be different."></textarea>
+              <p class="field-hint">A few sentences is plenty. No specification required.</p>
+            </div>
+          </fieldset>
+
+          <fieldset class="q-group">
+            <legend class="q-legend"><span class="q-no">04</span><span class="q-title">Context</span><span class="q-opt">Optional</span></legend>
+            <div class="field">
+              <span class="field-label">When are you thinking of starting?</span>
+              <div class="chips">
+                <label class="chip"><input type="radio" name="a-time"><span>As soon as possible</span></label>
+                <label class="chip"><input type="radio" name="a-time"><span>Next few months</span></label>
+                <label class="chip"><input type="radio" name="a-time"><span>Still exploring</span></label>
+              </div>
+            </div>
+          </fieldset>
+
+          <div class="form-actions">
+            <button class="btn" type="button">Send the inquiry <span class="arrow" aria-hidden="true">↗</span></button>
+            <p class="form-note">Static preview — the working form with validation and states is in <code>contact.html</code>.</p>
+          </div>
+        </form>
+        <p class="end-rule">End of Direction A preview</p>
+      </div>
+    </div>
+  </section>
+</main>
+</body>
+</html>
